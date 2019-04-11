@@ -5,15 +5,20 @@ http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/html');
   const url = parse(req.url);
   console.log(url);
-  
-  if(url.pathname === '/birthday') {
-    res.end('Happy Birthday');
-  } else if(url.pathname === '/tomorrow') {
-    res.end('Tomorrow, Tomorrow');
-  } else if(url.pathname === '/birthday/tomorrow') {
-    res.end('Tomorrow is your birthday'); 
-  } else {
-    res.statusCode = 404;
-    res.end('That is not an option');
+
+  switch(url.pathname) {
+    case "/birthday":
+      res.end('Happy Birthday');
+      break;
+    case "/tomorrow":
+      res.end('Tomorrow, tomorrow, tomorrow');
+      break;
+    case "/birthday/tomorrow":
+      res.end('Tomorrow is your birthday, eh?');
+      break;
+    default:
+      res.statusCode = 404;
+      res.end('absolutely not an option, not found');
   }
+  
 }).listen(9900);
