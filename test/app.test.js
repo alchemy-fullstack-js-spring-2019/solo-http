@@ -17,4 +17,28 @@ describe('app routes', () => {
         expect(res.body).toEqual({ text: 'hi there tommy' });
       });
   });
+
+  it('gets Rick object from api', () => {
+    return request(app)
+      .get('/character/1')
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Rick Sanchez',
+          status: 'Alive',
+          species: 'Human'
+        });
+      });
+  });
+
+  it('gets Morty object from api', () => {
+    return request(app)
+      .get('/character/2')
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Morty Smith',
+          status: 'Alive',
+          species: 'Human'
+        });
+      });
+  });
 });
