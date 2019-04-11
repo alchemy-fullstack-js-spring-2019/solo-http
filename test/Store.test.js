@@ -39,7 +39,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('find all object tracked by the store', () => {
+  it('find all object tracked by the store', () => {
     return Promise.all([
       store.create({ item: 1 }),
       store.create({ item: 2 }),
@@ -54,6 +54,19 @@ describe('Store', () => {
             items.forEach(item => expect(listOfItems).toContainEqual(item));
           });
       });
+  });
+
+  it('deletes an object with an id', () => {
+    return store.create({ item: 'I am going to delete' })
+      .then(createdItem => Promise.all([Promise.resolve(createdItem), store.findByIdAndDelete(createdItem._id)]))
+      .then(([createdItem, result]) => {
+        expect(result).toEqual({ deleted: 1 });
+        return createdItem;
+      }).then(createdItem => store.findById(createdItem._id))
+      .then(foundItem => {
+        expect(foundItem).toBeFalsy();
+      });
+
   });
 
   // it('deletes an object with an id', done => {
