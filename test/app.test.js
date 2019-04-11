@@ -16,6 +16,14 @@ describe('app routes', () => {
         expect(res.body).toEqual({ name: 'stitch' });
       });
   });
+  it('handles a query string', () => {
+    return request(app)
+      .get('/you')
+      .query({ name: 'cheri' })
+      .then(res => {
+        expect(res.body).toEqual({ text: 'hello cheri' });
+      });
+  });
 });
 
 
