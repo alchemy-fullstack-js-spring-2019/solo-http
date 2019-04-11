@@ -4,7 +4,8 @@ const Store = require('../lib/Store');
 
 describe('Store', () => {
   let store = null;
-
+  // console.log('*************************************');
+  
   beforeAll(done => {
     mkdirp('./testData/store', done);
   });
@@ -16,17 +17,18 @@ describe('Store', () => {
   beforeEach(done => {
     store.drop(done);
   });
-
-  afterAll(done => {
-    rimraf('./testData', done);
-  });
-
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  
+  // rimraf commented out due to bug in rimraf itself
+  // afterAll(done => {
+  //   rimraf('./testData', done);
+  // });
+  
+  it.only('creates an object in my store', () => {
+    return store.create({ name: 'ryan' }) 
+      .then(createdPerson => {
+        console.log(createdPerson);
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
 
   it('finds an object by id', done => {
