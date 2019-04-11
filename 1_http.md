@@ -2,32 +2,32 @@
 
 ## create server
 
-* use `http.createServer` to create a new http server
-* on each new request `console.log` "request incoming!"
-* `listen` on port 7890
+<!-- * use `http.createServer` to create a new http server -->
+<!-- * on each new request `console.log` "request incoming!" -->
+<!-- * `listen` on port 7890 -->
 
 ## respond from server
 
-* use `http.createServer` to create a new http server
-* respond to each request with "<html><body>Thanks for visiting!</body></html>"
-  * HINT: set your content type `res.setHeader('Content-Type', 'text/html')
-* `listen` on port 7890
+<!-- * use `http.createServer` to create a new http server -->
+<!-- * respond to each request with "<html><body>Thanks for visiting!</body></html>" -->
+  <!-- * HINT: set your content type `res.setHeader('Content-Type', 'text/html') -->
+<!-- * `listen` on port 7890 -->
 
 ## respond based on path
 
-* use `http.createServer` to create a new http server
-* respond to the following paths
-  * `/birthday` -> "Happy Birthday"
-  * `/tomorrow` -> "Tomorrow, Tomorrow"
-  * BONUS: `/birthday/tomorrow` -> "Tomorrow is your birthday"
-* NOTES:
+<!-- * use `http.createServer` to create a new http server -->
+<!-- * respond to the following paths -->
+  <!-- * `/birthday` -> "Happy Birthday" -->
+  <!-- * `/tomorrow` -> "Tomorrow, Tomorrow" -->
+  <!-- * BONUS: `/birthday/tomorrow` -> "Tomorrow is your birthday" -->
+<!-- * NOTES:
   * get the url with `req.url`
   * use `url.parse` to parse the url
-  * get the pathname from the parsed url with `.pathname`
+  * get the pathname from the parsed url with `.pathname` -->
 
 ## server and app
 
-* Create an `app.js` file
+<!-- * Create an `app.js` file -->
   * export an http listener function (`(req, res) => {}`)
   * respond to `/tester` with "testing123"
 * create a `server.js` file

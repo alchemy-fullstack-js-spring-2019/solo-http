@@ -4,7 +4,9 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon ./lib/server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +15,11 @@
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
     "mkdirp": "^0.5.1",
+    "nodemon": "^1.18.11",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
+    "supertest": "^4.0.2",
     "uuid": "^3.3.2"
   },
   "directories": {
