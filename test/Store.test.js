@@ -29,7 +29,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('finds an object by id', () => {
+  it('finds an object by id', () => {
     return store.create({ name: 'uncle bob' })
       .then(createdUncle => {
         return Promise.all([
@@ -42,27 +42,26 @@ describe('Store', () => {
       });
   });
 
-  it('find all objects tracked by the store', done => {
-    store.create({ item: 1 }, (err, item1) => {
-      store.create({ item: 2 }, (err, item2) => {
-        store.create({ item: 3 }, (err, item3) => {
-          store.create({ item: 4 }, (err, item4) => {
-            store.create({ item: 5 }, (err, item5) => {
-              store.find((err, listOfItems) => {
-                expect(err).toBeFalsy();
-                expect(listOfItems).toHaveLength(5);
-                expect(listOfItems).toContainEqual(item1);
-                expect(listOfItems).toContainEqual(item2);
-                expect(listOfItems).toContainEqual(item3);
-                expect(listOfItems).toContainEqual(item4);
-                expect(listOfItems).toContainEqual(item5);
-                done();
-              });
-            });
-          });
-        });
+  it.only('find all objects tracked by the store', () => {
+    const undefinedArray = [...Array(5)];
+    const arrayOfItems = undefinedArray.map((_, item) => ({ item }));
+    const createPromises = arrayOfItems.map(item => store.create(item));
+    return Promise.all(createPromises)
+      .then(items => {
+        return Promise.all([
+          Promise.resolve(items),
+          store.find()
+        ]);
+      })
+      .then(([items, foundItems]) => {
+        const [item1, item2, item3, item4, item5] = items;
+        expect(foundItems).toHaveLength(5);
+        expect(foundItems).toContainEqual(item1);
+        expect(foundItems).toContainEqual(item2);
+        expect(foundItems).toContainEqual(item3);
+        expect(foundItems).toContainEqual(item4);
+        expect(foundItems).toContainEqual(item5);
       });
-    });
   });
 
   it('deletes an object with an id', done => {
