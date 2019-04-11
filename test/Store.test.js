@@ -31,10 +31,10 @@ describe('Store', () => {
   it('finds an object by id', () => {
     return store.create({ name: 'uncle bob' })
       .then(createdUncle => {
-        return Promise.all([(store.findById(createdUncle._id)), createdUncle]);
+        return Promise.all([(store.findById(createdUncle._id)), Promise.resolve(createdUncle)]);
       })
       .then(([foundUncle, createdUncle]) => {
-        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
+        expect(foundUncle).toEqual(createdUncle);
       });
   });
 
@@ -47,9 +47,10 @@ describe('Store', () => {
       store.create({ item: 5 }),
     ])
       .then((arrayOfItems) => {
-        return Promise.all([(store.find()), ...arrayOfItems]);
+        return Promise.all([(store.find()), Promise.resolve(arrayOfItems)]);
       })
-      .then(([listOfItems, item1, item2, item3, item4, item5]) => {
+      .then(([listOfItems, items]) => {
+        const [item1, item2, item3, item4, item5] = items;
         expect(listOfItems).toHaveLength(5);
         expect(listOfItems).toContainEqual(item1);
         expect(listOfItems).toContainEqual(item2);
@@ -62,7 +63,7 @@ describe('Store', () => {
   it('deletes an object with an id', () => {
     return store.create({ item: 'I am going to delete' })
       .then(createdItem => {
-        return Promise.all([(store.findByIdAndDelete(createdItem._id)), createdItem]);
+        return Promise.all([(store.findByIdAndDelete(createdItem._id)), Promise.resolve(createdItem)]);
       })
       .then(([result, createdItem]) => {
         expect(result).toEqual({ deleted: 1 });
@@ -76,14 +77,39 @@ describe('Store', () => {
   it('updates an existing object', () => {
     return store.create({ name: 'rayn' })
       .then(typoCreated => {
-        return Promise.all([(store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' })), typoCreated]);
+        return Promise.all([(store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' })), Promise.resolve(typoCreated)]);
       })
       .then(([updatedWithoutTypo, typoCreated]) => {
         expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        return Promise.all([(store.findById(typoCreated._id)), updatedWithoutTypo]);
+        return Promise.all([(store.findById(typoCreated._id)), Promise.resolve(updatedWithoutTypo)]);
       })
       .then(([foundObj, updatedWithoutTypo]) => {
         expect(foundObj).toEqual(updatedWithoutTypo);
+      });
+  });
+
+  it.only('deletes all files', () => {
+    return Promise.all(
+      [...Array(5)]
+        .map((_, item) => {
+          return { item };
+        })
+        .map(item => store.create(item))
+    )
+      .then((arrayOfItems => {
+        return Promise.all(
+          Promise.resolve(arrayOfItems),
+          store.drop()
+        );
+      }))
+      .then(arrayOfItemsAndDrop => {
+        const arrayOfItems = arrayOfItemsAndDrop.slice(0, 5);
+        return Promise.all(
+          arrayOfItems.map(item => store.findById(item))
+        );
+      })
+      .catch(err => {
+        expect(err).toBeTruthy();
       });
   });
 });
