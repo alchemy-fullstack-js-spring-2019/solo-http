@@ -2,6 +2,7 @@ const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Store = require('../lib/Store');
 
+
 describe('Store', () => {
   let store = null;
 
@@ -21,13 +22,13 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  it.only('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
+    
 
   it('finds an object by id', done => {
     store.create({ name: 'uncle bob' }, (err, createdUncle) => {
