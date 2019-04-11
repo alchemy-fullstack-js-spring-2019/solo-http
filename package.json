@@ -1,14 +1,13 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Cheri Portman",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -18,5 +17,18 @@
   },
   "dependencies": {
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CheriPortman/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CheriPortman/solo-http/issues"
+  },
+  "homepage": "https://github.com/CheriPortman/solo-http#readme",
+  "description": ""
 }
