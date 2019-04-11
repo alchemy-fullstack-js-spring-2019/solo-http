@@ -35,7 +35,21 @@ http.createServer((req, res) => {
         </html>
         `);
       break;
+    case '/birthday/tomorrow': 
+      res.setHeader('Content-Type', 'text-html');
+      res.end(`
+        <html>
+          <head>
+            <title>Almost!!</title>
+          </head>
+          <body>
+            <h1>Tomorrow is your birthday</h1>
+          </body>
+        </html>
+        `);
+      break;
     default:
+      // res.status(404).send();
       res.setHeader('Content-Type', 'text-html');
       res.end(`
       <html>
