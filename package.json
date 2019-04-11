@@ -1,22 +1,40 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "nodemon server.js",
+    "start:watch:tomservo": "nodemon tomServo.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.16.0",
+    "http": "0.0.0",
     "jest": "^24.7.1",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.3"
+    "nodemon": "^1.18.11",
+    "rimraf": "^2.6.3",
+    "superagent": "^5.0.2",
+    "supertest": "^4.0.2",
+    "url": "^0.11.0"
   },
   "dependencies": {
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masmics/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Masmics/solo-http/issues"
+  },
+  "homepage": "https://github.com/Masmics/solo-http#readme",
+  "description": ""
 }
