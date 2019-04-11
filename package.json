@@ -1,11 +1,12 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,21 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
+    "http": "0.0.0",
+    "nodemon": "^1.18.11",
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanpatches/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seanpatches/solo-http/issues"
+  },
+  "homepage": "https://github.com/seanpatches/solo-http#readme",
+  "description": ""
 }
