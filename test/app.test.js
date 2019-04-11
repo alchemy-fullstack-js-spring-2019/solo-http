@@ -18,6 +18,15 @@ describe('app route', () => {
       `;
         expect(res.text).toEqual(html);
       });
-
   });
+
+  it.only('match that test JSON', () => {
+    return request(app)
+      .get('/tester')
+      .then(res => {
+        console.log(res.body);
+        expect(res.body).toEqual('{ testing: 123 }');
+      });
+  });
+
 });
