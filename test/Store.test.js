@@ -2,6 +2,7 @@ const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Store = require('../lib/Store');
 
+
 describe('Store', () => {
   let store = null;
 
@@ -13,7 +14,7 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
+  afterEach(done => {
     store.drop(done);
   });
 
@@ -37,30 +38,30 @@ describe('Store', () => {
       });
   });
 
-  it('find all objects tracked by the store', done => {
-    store.create({ item: 1 }, (err, item1) => {
-      store.create({ item: 2 }, (err, item2) => {
-        store.create({ item: 3 }, (err, item3) => {
-          store.create({ item: 4 }, (err, item4) => {
-            store.create({ item: 5 }, (err, item5) => {
-              store.find((err, listOfItems) => {
-                expect(err).toBeFalsy();
-                expect(listOfItems).toHaveLength(5);
-                expect(listOfItems).toContainEqual(item1);
-                expect(listOfItems).toContainEqual(item2);
-                expect(listOfItems).toContainEqual(item3);
-                expect(listOfItems).toContainEqual(item4);
-                expect(listOfItems).toContainEqual(item5);
-                done();
-              });
-            });
+
+  //works
+  it('find all bojects tracket by the store', () => {
+    const undefinedArray = [...Array(5)];
+    const arrayOfItems = undefinedArray.map((_, index) => ({ 'item': index }));
+    console.log(arrayOfItems);
+    return Promise.all(
+      arrayOfItems.map(item => store.create(item))
+    )
+      .then(([item1, item2, item3, item4, item5]) => {
+        store.find()
+          .then((listOfItems) => {
+            expect(listOfItems).toContainEqual(item1);
+            expect(listOfItems).toContainEqual(item2);
+            expect(listOfItems).toContainEqual(item3);
+            expect(listOfItems).toContainEqual(item4);
+            expect(listOfItems).toContainEqual(item5);
           });
-        });
       });
-    });
   });
 
-  it('deletes an object with an id', done => {
+
+
+  it.only('deletes an object with an id', done => {
     store.create({ item: 'I am going to delete' }, (err, createdItem) => {
       store.findByIdAndDelete(createdItem._id, (err, result) => {
         expect(err).toBeFalsy();
