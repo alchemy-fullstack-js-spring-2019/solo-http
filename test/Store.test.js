@@ -21,7 +21,7 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
+  it.only('creates an object in my store', done => {
     store.create({ name: 'ryan' }, (err, createdPerson) => {
       expect(err).toBeFalsy();
       expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
