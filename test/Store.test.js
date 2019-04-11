@@ -56,7 +56,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('deletes an object with an id', () => {
+  it('deletes an object with an id', () => {
     return store.create({ item: 'I am going to delete' })
       .then(createdItem => {
         return Promise.all([
@@ -74,17 +74,19 @@ describe('Store', () => {
         
   });
 
-  it('updates an existing object', done => {
-    store.create({ name: 'rayn' }, (err, typoCreated) => {
-      store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-        expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        store.findById(typoCreated._id, (err, foundObj) => {
-          expect(foundObj).toEqual(updatedWithoutTypo);
-          done();
-        });
+  it.only('updates an existing object', () => {
+    return store.create({ name: 'rayn' })
+      .then(createdPerson => store.findByIdAndUpdate(createdPerson, { name: 'ryan' }));
+    
+    // store.create({ name: 'rayn' }, (err, typoCreated) => {
+    //   store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
+    //     expect(err).toBeFalsy();
+    //     expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
+    //     store.findById(typoCreated._id, (err, foundObj) => {
+    //       expect(foundObj).toEqual(updatedWithoutTypo);
+    //       done();
+    //     });
 
-      });
-    });
+    //   });
   });
 });
