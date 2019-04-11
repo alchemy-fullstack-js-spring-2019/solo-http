@@ -59,7 +59,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('deletes an object with an id', () => {
+  it('deletes an object with an id', () => {
     return store.create({ item: 'I am going to delete' })
       .then(createdItem => {
         return Promise.all([(store.findByIdAndDelete(createdItem._id)), createdItem]);
@@ -71,30 +71,19 @@ describe('Store', () => {
       .catch(error => {
         expect(error).toBeTruthy();
       });
-    // store.create({ item: 'I am going to delete' }, (err, createdItem) => {
-    //   store.findByIdAndDelete(createdItem._id, (err, result) => {
-    //     expect(err).toBeFalsy();
-    //     expect(result).toEqual({ deleted: 1 });
-    //     store.findById(createdItem._id, (err, foundItem) => {
-    //       expect(err).toBeTruthy();
-    //       expect(foundItem).toBeFalsy();
-    //       done();
-    //     });
-    //   });
-    // });
   });
 
-  it('updates an existing object', done => {
-    store.create({ name: 'rayn' }, (err, typoCreated) => {
-      store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-        expect(err).toBeFalsy();
+  it('updates an existing object', () => {
+    return store.create({ name: 'rayn' })
+      .then(typoCreated => {
+        return Promise.all([(store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' })), typoCreated]);
+      })
+      .then(([updatedWithoutTypo, typoCreated]) => {
         expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        store.findById(typoCreated._id, (err, foundObj) => {
-          expect(foundObj).toEqual(updatedWithoutTypo);
-          done();
-        });
-
+        return Promise.all([(store.findById(typoCreated._id)), updatedWithoutTypo]);
+      })
+      .then(([foundObj, updatedWithoutTypo]) => {
+        expect(foundObj).toEqual(updatedWithoutTypo);
       });
-    });
   });
 });
