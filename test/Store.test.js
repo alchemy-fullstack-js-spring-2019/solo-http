@@ -13,8 +13,8 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
-    store.drop(done);
+  beforeEach(() => {
+    return store.drop();
   });
 
   afterAll(done => {
@@ -31,12 +31,11 @@ describe('Store', () => {
   
 
   it('finds an object by id', () => {
-    return store.create({ name: 'uncle bob' })
-      .then(createdUncle => store.findById(createdUncle._id)
-        .then(foundUncle => {
-          expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-        })
-      );
+    return store.create({ name: 'uncle bob' }).then(createdUncle => store.findById(createdUncle._id)
+      .then(foundUncle => {
+        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
+      })
+    );
   });
 
   
@@ -55,14 +54,23 @@ describe('Store', () => {
   });
 
   it('deletes an object with an id', () => {
-    store.create({ item: 'I am going to delete' })
+    return store.create({ item: 'I am going to delete' })
       .then(returnedItem => store.findByIdAndDelete(returnedItem._id))
       .then(res => expect(res).toEqual({ deleted: 1 }));
+    // .then(store.findById(returnedItem._id))
+    // .catch(err => expect(err).toBeTruthy());
   });
 
   it('updates an existing object', () => {
-    store.create({ name: 'ffff' })
+    return store.create({ name: 'ffff' })
       .then(createdItem => store.findByIdAndUpdate(createdItem._id, { name: 'cara' }))
       .then(updatedItem => expect(updatedItem.name).toEqual('cara'));
+  });
+
+  it('deletes all files from directory', () => {
+    return store.create({ name: 'Cara' })
+      .then(() => store.drop())
+      .then(() => store.find())
+      .then(data => expect(data).toEqual([]));
   });
 });
