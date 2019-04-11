@@ -10,4 +10,12 @@ describe('app routes', () => {
         expect(res.text).toEqual('Happy Birthday');
       });
   });
+  
+  it('json route', () => {
+    return request(app)
+      .get('/')
+      .then(res => {
+        expect(res.body).toEqual({ name: 'Parker' });
+      });
+  });
 });
