@@ -5,17 +5,21 @@ http.createServer((req, res)=> {
     res.setHeader('content-type', 'text/html');
     const url = parse(req.url);
     console.log(url);
-    if(url.pathname === '/birthday') {
-        res.end('happy birthday!');
-    }
-    else if(url.pathname === '/tomorrow') {
-        res.end('tomorrow, tomorrow');
-    }
-    else if(url.pathname === '/birthday/tomorrow') {
-        res.end('tomorrow is your birthday!');
-    }
-    else {
-        res.statusCode = 404;
-        res.end('404 FILE NOT FOUND');
+
+    switch(url.pathname) {
+        case '/birthday':
+            res.end('happy birthday!');
+            break;
+        case '/tomorrow':
+            res.end('tomorrow, tomorrow...');
+            break;
+        case '/birthday/tomorrow':
+            res.end('tomorrow is your birthday!');
+            break;
+        default:
+            res.statusCode = 404;
+            res.end('404 FILE NOT FOUND');
+            break;
+        
     }
 }).listen(7890);
