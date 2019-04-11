@@ -40,7 +40,7 @@ describe('Store', () => {
 
 
   //works
-  it('find all bojects tracket by the store', () => {
+  it.only('find all bojects tracket by the store', () => {
     const undefinedArray = [...Array(5)];
     const arrayOfItems = undefinedArray.map((_, index) => ({ 'item': index }));
     console.log(arrayOfItems);
@@ -61,7 +61,7 @@ describe('Store', () => {
 
 
 
-  it.only('deletes an object with an id', done => {
+  it('deletes an object with an id', done => {
     store.create({ item: 'I am going to delete' }, (err, createdItem) => {
       store.findByIdAndDelete(createdItem._id, (err, result) => {
         expect(err).toBeFalsy();
