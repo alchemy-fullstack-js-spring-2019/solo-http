@@ -21,12 +21,11 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  it.only('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        return expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
 
   it('finds an object by id', done => {
