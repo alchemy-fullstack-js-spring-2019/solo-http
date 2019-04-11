@@ -13,20 +13,19 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
-    store.drop(done);
+  beforeEach(() => {
+    return store.drop();
   });
 
   afterAll(done => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  it('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
 
   it('finds an object by id', done => {
