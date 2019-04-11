@@ -88,7 +88,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('deletes all files', () => {
+  it('deletes all files', () => {
     return Promise.all(
       [...Array(5)]
         .map((_, item) => {
