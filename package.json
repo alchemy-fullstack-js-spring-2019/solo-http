@@ -1,7 +1,6 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
@@ -18,5 +17,18 @@
   },
   "dependencies": {
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrislupdx/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chrislupdx/solo-http/issues"
+  },
+  "homepage": "https://github.com/chrislupdx/solo-http#readme",
+  "description": ""
 }
