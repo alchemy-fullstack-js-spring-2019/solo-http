@@ -84,7 +84,7 @@ describe('Store', () => {
     });
   });
 
-  it('updates an existing object', done => {
+  it('updates an existing object', () => {
     store.create({ name: 'rayn' }, (err, typoCreated) => {
       store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
         expect(err).toBeFalsy();
