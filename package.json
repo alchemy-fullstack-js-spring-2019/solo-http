@@ -1,11 +1,11 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start": "node lib/index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,18 @@
   },
   "dependencies": {
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maybeemily/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maybeemily/solo-http/issues"
+  },
+  "homepage": "https://github.com/maybeemily/solo-http#readme",
+  "description": ""
 }
