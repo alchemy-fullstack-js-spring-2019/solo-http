@@ -40,28 +40,23 @@ describe('Store', () => {
       });
   });
 
-  // it('find all objects tracked by the store', done => {
-  //   store.create({ item: 1 }, (err, item1) => {
-  //     store.create({ item: 2 }, (err, item2) => {
-  //       store.create({ item: 3 }, (err, item3) => {
-  //         store.create({ item: 4 }, (err, item4) => {
-  //           store.create({ item: 5 }, (err, item5) => {
-  //             store.find((err, listOfItems) => {
-  //               expect(err).toBeFalsy();
-  //               expect(listOfItems).toHaveLength(5);
-  //               expect(listOfItems).toContainEqual(item1);
-  //               expect(listOfItems).toContainEqual(item2);
-  //               expect(listOfItems).toContainEqual(item3);
-  //               expect(listOfItems).toContainEqual(item4);
-  //               expect(listOfItems).toContainEqual(item5);
-  //               done();
-  //             });
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
+  it('find all objects tracked by the store', () => {
+    return Promise.all([
+      store.create({ item: 1 }),
+      store.create({ item: 2 }),
+      store.create({ item: 3 }),
+      store.create({ item: 4 }),
+      store.create({ item: 5 }),
+    ])
+      .then(listOfItems => {
+        expect(listOfItems).toHaveLength(5);
+        // expect(listOfItems).toContainEqual(item1);
+        // expect(listOfItems).toContainEqual(item2);
+        // expect(listOfItems).toContainEqual(item3);
+        // expect(listOfItems).toContainEqual(item4);
+        // expect(listOfItems).toContainEqual(item5);
+      });
+  });
 
   // it('deletes an object with an id', done => {
   //   store.create({ item: 'I am going to delete' }, (err, createdItem) => {
