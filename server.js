@@ -1,8 +1,8 @@
 const http = require('http');
 const { parse } = require('url');
-const server = require('./lib/app.js');
+const app = require('./lib/app.js');
 
-server.listen(7890);
+app.listen(7890);
 
 // http.createServer((req, res) => {
 //   const url = (parse(req.url));
