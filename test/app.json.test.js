@@ -8,6 +8,6 @@ describe('appJson testing', () => {
       .get('/tester')
       .then(res => {
         expect(res.text).toEqual(JSON.stringify({ testing: 123 }));
-      })
+      });
   });
 });
