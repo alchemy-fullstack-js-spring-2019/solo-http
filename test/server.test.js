@@ -1,5 +1,6 @@
 const request = require('supertest');
-const app = require('../lib/app.js');
+const { app } = require('../lib/app.js');
+const { rick } = require('../lib/rick.js');
 
 describe('Test the root path', () => {
   test('It should respond to birthday', () => {
@@ -25,3 +26,17 @@ describe('Test the root path', () => {
 
   
 });
+
+describe('Test rick return', () => {
+  test('It should return characters', () => {
+    return request(rick).get('/character/?id=15')
+      .then(res => {
+        expect(JSON.parse(res.text)).toEqual({
+          name: 'Alien Rick',
+          species: 'Alien',
+          gender: 'Male'
+        });
+      });
+  });
+});
+
