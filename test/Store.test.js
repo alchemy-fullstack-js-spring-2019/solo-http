@@ -5,7 +5,7 @@ const Store = require('../lib/Store');
 describe('Store', () => {
   let store = null;
 
-  beforeAll(done => {
+  beforeEach(done => {
     mkdirp('./testData/store', done);
   });
 
@@ -13,11 +13,7 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
-    store.drop(done);
-  });
-
-  afterAll(done => {
+  afterEach(done => {
     rimraf('./testData', done);
   });
 
@@ -47,12 +43,13 @@ describe('Store', () => {
       store.create({ item: 4 }),
       store.create({ item: 5 }),
     ])
-      .then((items) => {
-        return store.find()
-          .then(listOfItems => {
-            expect(listOfItems).toHaveLength(5);
-            items.forEach(item => expect(listOfItems).toContainEqual(item));
-          });
+      .then((items) => Promise.all([
+        Promise.resolve(items),
+        store.find()
+      ]))
+      .then(([items, foundItems]) => {
+        expect(foundItems).toHaveLength(5);
+        items.forEach(item => expect(foundItems).toContainEqual(item));
       });
   });
 
@@ -69,7 +66,7 @@ describe('Store', () => {
   });
 
   it('updates an existing object', () => {
-    store.create({ name: 'rayn' })
+    return store.create({ name: 'rayn' })
       .then(createdItem => store.findByIdAndUpdate(createdItem._id, { name: 'ryan' }))
       .then(updatedItem => {
         expect(updatedItem.name).toBe('ryan');
@@ -79,17 +76,30 @@ describe('Store', () => {
         expect(foundItem.name).toBe('ryan');
       });
   });
-  // it('updates an existing object', done => {
-  //   store.create({ name: 'ryan' }, (err, typoCreated) => {
-  //     store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-  //       expect(err).toBeFalsy();
-  //       expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-  //       store.findById(typoCreated._id, (err, foundObj) => {
-  //         expect(foundObj).toEqual(updatedWithoutTypo);
-  //         done();
-  //       });
 
-  //     });
-  //   });
-  // });
+  it('deletes all files in the root', () => {
+    return Promise.all([
+      store.create({ item: 1 }),
+      store.create({ item: 2 }),
+      store.create({ item: 3 }),
+      store.create({ item: 4 }),
+      store.create({ item: 5 }),
+    ])
+      .then((items) => Promise.all([
+        Promise.resolve(items),
+        store.find()
+      ]))
+      .then(([items, foundItems]) => {
+        expect(foundItems).toHaveLength(5);
+        items.forEach(item => expect(foundItems).toContainEqual(item));
+      })
+      .then(() => store.drop())
+      .then(results => {
+        expect(results).toEqual({ deleted: 5 });
+        return store.find();
+      })
+      .then(foundItems => {
+        expect(foundItems).toEqual([]);
+      });
+  });
 });
