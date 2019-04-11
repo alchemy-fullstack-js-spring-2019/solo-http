@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    // "start:watch": "nodamon lib/server.js"
   },
   "keywords": [],
   "author": "",
