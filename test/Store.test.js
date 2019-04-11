@@ -5,6 +5,7 @@ const fsPromises = require('fs').promises;
 
 describe('Store', () => {
   let store = null;
+  let testUser = null;
 
   beforeAll(done => {
     mkdirp('./testData/store', done);
@@ -12,6 +13,7 @@ describe('Store', () => {
 
   beforeEach(() => {
     store = new Store('./testData/store');
+    testUser = store.create({ name: 'Bob' });
   });
 
   beforeEach(done => {
@@ -22,22 +24,20 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it.only('creates an object in my store', () => {
+  it('creates an object in my store', () => {
     return store.create({ name: 'ryan' })
       .then(createdPerson => 
         expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) })
       );
   });
 
-  it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
-      store.findById(createdUncle._id, (err, foundUncle) => {
-        expect(err).toBeFalsy();
-        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-        done();
-      });
-    });
+  it.only('finds an object by id', () => {
+    return store.findById(testUser._id)
+      .then(foundUser =>
+        expect(foundUser).toEqual({ name: 'Bob', _id: testUser._id }));
+    
   });
+ 
 
   it('find all objects tracked by the store', done => {
     store.create({ item: 1 }, (err, item1) => {
