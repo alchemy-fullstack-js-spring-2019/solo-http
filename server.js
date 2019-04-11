@@ -2,6 +2,7 @@ const http = require('http');
 const { parse } = require('url');
 
 http.createServer((req, res)=> {
+    res.setHeader('content-type', 'text/html');
     const url = parse(req.url);
     console.log(url);
     if(url.pathname === '/birthday') {
@@ -14,16 +15,7 @@ http.createServer((req, res)=> {
         res.end('tomorrow is your birthday!');
     }
     else {
-        res.send(404);
+        res.statusCode = 404;
+        res.end('404 FILE NOT FOUND');
     }
-    res.setHeader('content-type', 'text/html');
-    res.end(`<html>
-    <head>
-    <title>cool site</title>
-    </head>
-    <body> 
-    <h1>thanks for saying hi</h1>
-    </body>
-    </html>`);
-    
 }).listen(7890);
