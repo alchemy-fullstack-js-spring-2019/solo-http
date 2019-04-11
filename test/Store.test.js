@@ -59,12 +59,19 @@ describe('Store', () => {
   it.only('deletes an object with an id', () => {
     return store.create({ item: 'I am going to delete' })
       .then(createdItem => {
-        store.findByIdAndDelete(createdItem._id)
-          .then(delObj => {
-            expect(delObj).toEqual({ deleted: 1 });
-            expect(store.findById(createdItem._id).toBeFalsy());
-          });
+        return Promise.all([
+          Promise.resolve(createdItem),
+          store.findByIdAndDelete(createdItem._id)
+        ]);
+      })
+      .then(([createdItem, delObj]) => {
+        expect(delObj).toEqual({ deleted: 1 });
+        return store.findById(createdItem._id);
+      })
+      .catch(err => {
+        expect(err).toBeTruthy();
       });
+        
   });
 
   it('updates an existing object', done => {
