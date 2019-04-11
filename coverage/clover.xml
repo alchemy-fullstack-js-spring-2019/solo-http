@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1555009968087" clover="3.2.0">
+  <project timestamp="1555009968088" name="All files">
+    <metrics statements="26" coveredstatements="26" conditionals="2" coveredconditionals="1" methods="18" coveredmethods="18" elements="46" coveredelements="45" complexity="0" loc="26" ncloc="26" packages="1" files="1" classes="1"/>
+    <file name="Store.js" path="/Users/miniponz/projects/fsjs/solo-http/lib/Store.js">
+      <metrics statements="26" coveredstatements="26" conditionals="2" coveredconditionals="1" methods="18" coveredmethods="18"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="6" count="6" type="stmt"/>
+      <line num="10" count="10" type="stmt"/>
+      <line num="11" count="10" type="stmt"/>
+      <line num="12" count="10" type="stmt"/>
+      <line num="13" count="10" type="stmt"/>
+      <line num="14" count="10" type="stmt"/>
+      <line num="19" count="8" type="stmt"/>
+      <line num="20" count="8" type="stmt"/>
+      <line num="21" count="8" type="stmt"/>
+      <line num="25" count="2" type="stmt"/>
+      <line num="27" count="5" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="40" count="1" type="stmt"/>
+      <line num="42" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="44" count="1" type="stmt"/>
+      <line num="48" count="7" type="stmt"/>
+      <line num="49" count="9" type="stmt"/>
+      <line num="53" count="29" type="stmt"/>
+      <line num="57" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
