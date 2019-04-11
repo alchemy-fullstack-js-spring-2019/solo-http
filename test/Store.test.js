@@ -1,7 +1,6 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Store = require('../lib/Store');
-// const fsPromises = require('fs').promises;
 
 describe('Store', () => {
   let store = null;
@@ -14,8 +13,8 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
-    store.drop(done);
+  beforeEach(() => {
+    return store.drop();
   });
 
   afterAll(done => {
@@ -42,9 +41,13 @@ describe('Store', () => {
       });
   });
 
-  it.only('find all objects tracked by the store', () => {
+  it('find all objects tracked by the store', () => {
     const undefinedArray = [...Array(5)];
-    const arrayOfItems = undefinedArray.map((_, item) => ({ item }));
+    const arrayOfItems = undefinedArray.map((_, index) => {
+      return {
+        item: index
+      };
+    });
     const createPromises = arrayOfItems.map(item => store.create(item));
     return Promise.all(createPromises)
       .then(items => {
@@ -64,31 +67,32 @@ describe('Store', () => {
       });
   });
 
-  it('deletes an object with an id', done => {
-    store.create({ item: 'I am going to delete' }, (err, createdItem) => {
-      store.findByIdAndDelete(createdItem._id, (err, result) => {
-        expect(err).toBeFalsy();
-        expect(result).toEqual({ deleted: 1 });
-        store.findById(createdItem._id, (err, foundItem) => {
-          expect(err).toBeTruthy();
-          expect(foundItem).toBeFalsy();
-          done();
-        });
+  it('deletes an object with an id', () => {
+    return store.create({ item: 'I am going to deelte' })
+      .then(createdItem => {
+        return Promise.all([
+          Promise.all(createdItem),
+          store.findByIdAndDelete(createdItem._id)
+        ]);
+      })
+      .then(([createdItem, deleteResult]) => {
+        expect(deleteResult).toEqual({ deleted: 1 });
+        return store.findById(createdItem._id);
+      })
+      .catch(err => {
+        expect(err).toBeTruthy();
       });
-    });
   });
 
-  it('updates an existing object', done => {
-    store.create({ name: 'rayn' }, (err, typoCreated) => {
-      store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-        expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        store.findById(typoCreated._id, (err, foundObj) => {
-          expect(foundObj).toEqual(updatedWithoutTypo);
-          done();
+  it('updates an existing object', () => {
+    return store.create({ name: 'rayn' })
+      .then(createdItem => {
+        return store.findByIdAndUpdate(createdItem._id, {
+          name: 'ryan'
         });
-
+      })
+      .then(updatedItem => {
+        expect(updatedItem.name).toEqual('ryan');
       });
-    });
   });
 });
