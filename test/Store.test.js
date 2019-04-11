@@ -13,27 +13,21 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(done => {
-    store.drop(done);
+  beforeEach(() => {
+    return store.drop();
   });
 
   afterAll(done => {
     rimraf('./testData', done);
   });
 
-  it.only('creates an object in my store', ()=> {
-    return store.create ({ name: 'ryan' })
+  it('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
       .then(createdPerson => {
         expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
       });
   });
 
-
-  //create item. then after i'm done creating i
-  //get my createdUncle. Then with that, I will find
-  //the Created Uncle. The promise all is so I can send
-  //both uncles to the next then. I then expect my founduncle
-  //to be the same uncle that I created. 
   it('finds an object by id', () => {
     return store.create({ name: 'uncle bob' })
       .then(createdUncle => {
@@ -43,59 +37,67 @@ describe('Store', () => {
         ]);
       })
       .then(([createdUncle, foundUncle]) => {
-        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
+        expect(foundUncle).toEqual(createdUncle);
       });
   });
 
-  //underscore in next test map - meaning there is no value
-  it.only('find all objects tracked by the store', ()=> {
+  it('find all objects tracked by the store', () => {
+    // [undefined, undefined, undefined, undefined, undefined]
+    // [{ item: 0 }, { item: 1 }, { item: 2 },  { item: 3 }, { item: 4 }]
+    // [store.create({ item: 0 }), store.create({ item: 1 }, store.create({ item: 2 }, store.create({ item: 3 }, store.create({ item: 4 }, store.create({ item: 5 }]
     const undefinedArray = [...Array(5)];
-    const arrayOfItems = undefinedArray.map((_, item) => ([item]));
-    const promises = arrayOfItems.map(item => store.create(item));
-    
-    return Promise.all(promises)
+    const arrayOfItems = undefinedArray.map((_, index) => {
+      return {
+        item: index
+      };
+    });
+    const createPromises = arrayOfItems
+      .map(item => store.create(item));
+
+    return Promise.all(createPromises)
       .then(items => {
         return Promise.all([
           Promise.resolve(items),
           store.find()
         ]);
       })
-      .then(([items, listOfItems]) => {
+      .then(([items, foundItems]) => {
         const [item1, item2, item3, item4, item5] = items;
-        expect(listOfItems).toHaveLength(5);
-        expect(listOfItems).toContainEqual(item1);
-        expect(listOfItems).toContainEqual(item2);
-        expect(listOfItems).toContainEqual(item3);
-        expect(listOfItems).toContainEqual(item4);
-        expect(listOfItems).toContainEqual(item5);
+        expect(foundItems).toHaveLength(5);
+        expect(foundItems).toContainEqual(item1);
+        expect(foundItems).toContainEqual(item2);
+        expect(foundItems).toContainEqual(item3);
+        expect(foundItems).toContainEqual(item4);
+        expect(foundItems).toContainEqual(item5);
       });
   });
 
-  it('deletes an object with an id', done => {
-    store.create({ item: 'I am going to delete' }, (err, createdItem) => {
-      store.findByIdAndDelete(createdItem._id, (err, result) => {
-        expect(err).toBeFalsy();
-        expect(result).toEqual({ deleted: 1 });
-        store.findById(createdItem._id, (err, foundItem) => {
-          expect(err).toBeTruthy();
-          expect(foundItem).toBeFalsy();
-          done();
-        });
+  it('deletes an object with an id', () => {
+    return store.create({ item: 'I am going to delete' })
+      .then(createdItem => {
+        return Promise.all([
+          Promise.resolve(createdItem),
+          store.findByIdAndDelete(createdItem._id)
+        ]);
+      })
+      .then(([createdItem, deleteResult]) => {
+        expect(deleteResult).toEqual({ deleted: 1 });
+        return store.findById(createdItem._id);
+      })
+      .catch(err => {
+        expect(err).toBeTruthy();
       });
-    });
   });
 
-  it('updates an existing object', done => {
-    store.create({ name: 'rayn' }, (err, typoCreated) => {
-      store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-        expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        store.findById(typoCreated._id, (err, foundObj) => {
-          expect(foundObj).toEqual(updatedWithoutTypo);
-          done();
+  it('updates an existing object', () => {
+    return store.create({ name: 'rayn' })
+      .then(createdItem => {
+        return store.findByIdAndUpdate(createdItem._id, {
+          name: 'ryan'
         });
-
+      })
+      .then(updatedItem => {
+        expect(updatedItem.name).toEqual('ryan');
       });
-    });
   });
 });
