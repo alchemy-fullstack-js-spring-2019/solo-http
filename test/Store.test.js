@@ -1,6 +1,7 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Store = require('../lib/Store');
+// const fsPromises = require('fs').promises;
 
 describe('Store', () => {
   let store = null;
@@ -21,22 +22,24 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  it('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
 
-  it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
-      store.findById(createdUncle._id, (err, foundUncle) => {
-        expect(err).toBeFalsy();
-        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-        done();
+  it.only('finds an object by id', () => {
+    return store.create({ name: 'uncle bob' })
+      .then(createdUncle => {
+        return Promise.all([
+          Promise.resolve(createdUncle),
+          store.findById(createdUncle._id)
+        ]);
+      })
+      .then(([createdUncle, foundUncle]) => {
+        expect(foundUncle).toEqual(createdUncle);
       });
-    });
   });
 
   it('find all objects tracked by the store', done => {
