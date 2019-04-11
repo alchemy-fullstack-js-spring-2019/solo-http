@@ -21,7 +21,7 @@
   * `/tomorrow` -> "Tomorrow, Tomorrow"
   * BONUS: `/birthday/tomorrow` -> "Tomorrow is your birthday"
 * NOTES:
-  * get the url with `req.url`
+  * get the url with `req.url`o
   * use `url.parse` to parse the url
   * get the pathname from the parsed url with `.pathname`
 
