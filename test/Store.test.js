@@ -5,7 +5,6 @@ const fsPromises = require('fs').promises;
 
 describe('Store', () => {
   let store = null;
-  let testUser = null;
 
   beforeAll(done => {
     mkdirp('./testData/store', done);
@@ -13,7 +12,6 @@ describe('Store', () => {
 
   beforeEach(() => {
     store = new Store('./testData/store');
-    testUser = store.create({ name: 'Bob' });
   });
 
   beforeEach(done => {
@@ -32,10 +30,16 @@ describe('Store', () => {
   });
 
   it.only('finds an object by id', () => {
-    return store.findById(testUser._id)
-      .then(foundUser =>
-        expect(foundUser).toEqual({ name: 'Bob', _id: testUser._id }));
-    
+    return store.create({ name: 'Bob' })
+      .then(createdUser => {
+        return Promise.all([
+          Promise.resolve(createdUser),
+          store.findById(createdUser._id)
+        ])
+          .then(([createdUser, foundUser]) => {
+            expect(foundUser).toEqual(createdUser);
+          });
+      });
   });
  
 
