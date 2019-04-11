@@ -9,4 +9,12 @@ describe('app routes', () => {
         expect(res.text).toEqual('Happy Birthday!');
       });
   });
+
+  it('responds to the test route', () => {
+    return request(app)
+      .get('/tester')
+      .then(res => {
+        expect(res.text).toEqual('testing123');
+      });
+  });
 });
