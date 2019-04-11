@@ -1,6 +1,6 @@
 const http = require('http');
 const { parse } = require('url');
-const app = require('./app');
+const app = require('./lib/app');
 //Create a server
 // http.createServer((req, res) => {
 //   console.log('request incoming!');
