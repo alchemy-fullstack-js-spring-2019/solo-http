@@ -36,7 +36,7 @@ describe('Store', () => {
       });
   });
 
-  it.only('find all objects tracked by the store', () => {
+  it('find all objects tracked by the store', () => {
     const iArr = [1, 2, 3, 4, 5];
     return Promise.all(
       iArr.map(i => {
@@ -56,18 +56,15 @@ describe('Store', () => {
       });
   });
 
-  it('deletes an object with an id', done => {
-    store.create({ item: 'I am going to delete' }, (err, createdItem) => {
-      store.findByIdAndDelete(createdItem._id, (err, result) => {
-        expect(err).toBeFalsy();
-        expect(result).toEqual({ deleted: 1 });
-        store.findById(createdItem._id, (err, foundItem) => {
-          expect(err).toBeTruthy();
-          expect(foundItem).toBeFalsy();
-          done();
-        });
+  it.only('deletes an object with an id', () => {
+    return store.create({ item: 'I am going to delete' })
+      .then(createdItem => {
+        store.findByIdAndDelete(createdItem._id)
+          .then(delObj => {
+            expect(delObj).toEqual({ deleted: 1 });
+            expect(store.findById(createdItem._id).toBeFalsy());
+          });
       });
-    });
   });
 
   it('updates an existing object', done => {
