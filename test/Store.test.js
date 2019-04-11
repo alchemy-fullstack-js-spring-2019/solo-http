@@ -61,12 +61,11 @@ describe('Store', () => {
       .then(createdItem => Promise.all([Promise.resolve(createdItem), store.findByIdAndDelete(createdItem._id)]))
       .then(([createdItem, result]) => {
         expect(result).toEqual({ deleted: 1 });
-        return createdItem;
-      }).then(createdItem => store.findById(createdItem._id))
-      .then(foundItem => {
-        expect(foundItem).toBeFalsy();
+        return store.findById(createdItem._id);
+      })
+      .catch(err => {
+        expect(err).toBeTruthy();
       });
-
   });
 
   // it('deletes an object with an id', done => {
