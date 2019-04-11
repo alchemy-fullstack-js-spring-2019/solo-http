@@ -24,6 +24,11 @@ describe('app routes', () => {
         expect(res.body).toEqual({ text: 'hello cheri' });
       });
   });
+  it.only('gets a particular character from an api', () => {
+    return request(app)
+      .get('/character/2')
+      .then(res => {
+        expect(res.body).toEqual('Morty Smith');
+      });
+  });
 });
-
-
