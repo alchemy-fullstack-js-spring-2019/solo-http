@@ -21,45 +21,42 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+  it('creates an object in my store', () => {
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+      });
   });
 
-  it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
-      store.findById(createdUncle._id, (err, foundUncle) => {
-        expect(err).toBeFalsy();
+  it('finds an object by id', () => {
+    return store.create({ name: 'uncle bob' })
+      .then(createdUncle => {
+        return Promise.all([(store.findById(createdUncle._id)), createdUncle]);
+      })
+      .then(([foundUncle, createdUncle]) => {
         expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-        done();
       });
-    });
   });
 
-  it('find all objects tracked by the store', done => {
-    store.create({ item: 1 }, (err, item1) => {
-      store.create({ item: 2 }, (err, item2) => {
-        store.create({ item: 3 }, (err, item3) => {
-          store.create({ item: 4 }, (err, item4) => {
-            store.create({ item: 5 }, (err, item5) => {
-              store.find((err, listOfItems) => {
-                expect(err).toBeFalsy();
-                expect(listOfItems).toHaveLength(5);
-                expect(listOfItems).toContainEqual(item1);
-                expect(listOfItems).toContainEqual(item2);
-                expect(listOfItems).toContainEqual(item3);
-                expect(listOfItems).toContainEqual(item4);
-                expect(listOfItems).toContainEqual(item5);
-                done();
-              });
-            });
-          });
-        });
+  it.only('find all objects tracked by the store', () => {
+    return Promise.all([
+      store.create({ item: 1 }),
+      store.create({ item: 2 }),
+      store.create({ item: 3 }),
+      store.create({ item: 4 }),
+      store.create({ item: 5 }),
+    ])
+      .then((arrayOfItems) => {
+        return Promise.all([(store.find()), ...arrayOfItems]);
+      })
+      .then(([listOfItems, item1, item2, item3, item4, item5]) => {
+        expect(listOfItems).toHaveLength(5);
+        expect(listOfItems).toContainEqual(item1);
+        expect(listOfItems).toContainEqual(item2);
+        expect(listOfItems).toContainEqual(item3);
+        expect(listOfItems).toContainEqual(item4);
+        expect(listOfItems).toContainEqual(item5);
       });
-    });
   });
 
   it('deletes an object with an id', done => {
