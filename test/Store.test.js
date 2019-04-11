@@ -21,24 +21,34 @@ describe('Store', () => {
     rimraf('./testData', done);
   });
 
-  it.only('creates an object in my store', done => {
+  it('creates an object in my store', done => {
     return store.create({ name: 'ryan' })
       .then(createdPerson => {
         expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
         done();
       });
   });
+// errors below
+  it.only('finds an object by id', done => {
+    return store.create({ name: 'uncle bob' })
+    .then(createdUncle => {
+      return Promise.all([
+        Promise.resolve(createdUncle),
 
-  it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
+      ])
       store.findById(createdUncle._id, (err, foundUncle) => {
         expect(err).toBeFalsy();
         expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
         done();
+    // store.create({ name: 'uncle bob' }, (err, createdUncle) => {
+    //   store.findById(createdUncle._id, (err, foundUncle) => {
+    //     expect(err).toBeFalsy();
+    //     expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
+    //     done();
       });
     });
   });
-
+// errors refactor below
   it('find all objects tracked by the store', done => {
     store.create({ item: 1 }, (err, item1) => {
       store.create({ item: 2 }, (err, item2) => {
