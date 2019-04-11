@@ -28,35 +28,31 @@ describe('Store', () => {
       });
   });
 
-  it.only('finds an object by id', () => {
-    store.create({ name: 'uncle bob' })
+  it('finds an object by id', () => {
+    return store.create({ name: 'uncle bob' })
       .then(createdPerson => {
         store.findById(createdPerson._id)
           .then(foundPerson => expect(foundPerson).toEqual({ name: 'uncle bob', _id: createdPerson._id }));
       });
   });
 
-  it('find all objects tracked by the store', done => {
-    store.create({ item: 1 }, (err, item1) => {
-      store.create({ item: 2 }, (err, item2) => {
-        store.create({ item: 3 }, (err, item3) => {
-          store.create({ item: 4 }, (err, item4) => {
-            store.create({ item: 5 }, (err, item5) => {
-              store.find((err, listOfItems) => {
-                expect(err).toBeFalsy();
-                expect(listOfItems).toHaveLength(5);
-                expect(listOfItems).toContainEqual(item1);
-                expect(listOfItems).toContainEqual(item2);
-                expect(listOfItems).toContainEqual(item3);
-                expect(listOfItems).toContainEqual(item4);
-                expect(listOfItems).toContainEqual(item5);
-                done();
-              });
-            });
-          });
-        });
+  it.only('find all objects tracked by the store', () => {
+    for(let i = 1; i < 6; i++) {
+      store.create();
+    }
+    const iArr = [1, 2, 3, 4, 5];
+    return Promise.all(
+      iArr.forEach(i => store.create({ item: i }))
+    )
+      .then(store.find())
+      .then(listOfItems => {
+        expect(listOfItems).toHaveLength(5);
+        expect(listOfItems).toContainEqual({ item: 1 });
+        expect(listOfItems).toContainEqual({ item: 2 });
+        expect(listOfItems).toContainEqual({ item: 3 });
+        expect(listOfItems).toContainEqual({ item: 4 });
+        expect(listOfItems).toContainEqual({ item: 5 });
       });
-    });
   });
 
   it('deletes an object with an id', done => {
