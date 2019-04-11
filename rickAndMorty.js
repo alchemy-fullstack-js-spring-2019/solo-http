@@ -1,18 +1,30 @@
 const http = require('http');
 const { parse } = require('url');
-const request = require('superagent');
+const getCharacter = require('./getCharacter');
+
 
 http.createServer((req, res) => {
+//   res.send = json => res.end(JSON.stringify(json));  
   const url = parse(req.url);
   const pattern = /\/(?<path>\w*)\/:?(?<id>\w*)?/;
   const match = pattern.exec(url.path);
   if(!match || !match.groups) res.end('error');
 
-  return request.get(`https://rickandmortyapi.com/api/character/${match.groups.id}`)
-    .then(res => res.body)
-    .then(results => {
-      res.setHeader('Content-Type', 'application/json');  
-      res.end(JSON.stringify(results));
-    });
+  if(match.groups.path === 'character') {
+    return getCharacter(match.groups.id)  
+      .then(results => {
+        res.setHeader('Content-Type', 'text/html');  
+        res.end(
+          `<html>
+            <body>
+            <h1>${results.name}</h1>    
+            <p>Is a ${results.status} ${results.species}</p>
+            </body>
+            </html>`
+        );
+      });
+  } else {
+    res.end('error');  
+  }
 }).listen(1234);
 
