@@ -1,29 +1,28 @@
 const http = require('http');
+const { parse } = require('url');
 
 // tcp uses SOCKETS
 // request, response
+
 http.createServer((req, res) => {
-
-  console.log('We Linked!');
-
-
-
-  res.end(`
-    <html>
-      <head>
-        <title>Server</title>
-      </head>
-      <body>
-      <style type="text/css">
-        body {
-          display: flex;
-          justify-content: center;
-          color: red;
-          background-color: black; }
-        h1 { text-align: center; }
-      </style>
-        <h1>Thanks for coming to my TedTalk</h1>
-      </body>
-    </html>
-  `);
+  const url = parse(req.url);
+  console.log('We Linked!', url);
+  
+  res.setHeader('Content-Type', 'application/json', 'text/html');
+  switch(url.pathname) {
+    case '/birthday':
+      res.end('Happy Birthday');
+      break;
+    case '/tomorrow':
+      res.end('Tomorrow, Tomorrow');
+      break;
+    case '/home':
+      res.end(JSON.stringify({ name: 'Parker' }));
+      break;
+    default:
+      res.statusCode = 404;
+      res.end('Not Found');
+      break;
+  }
+  
 }).listen(4657, () => { console.log('Parker: server running'); });
