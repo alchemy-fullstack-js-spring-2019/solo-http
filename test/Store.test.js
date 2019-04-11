@@ -31,33 +31,22 @@ describe('Store', () => {
     it.only('finds an object by id', () => {
         return store.create({ name: 'uncle bob' })
             .then(createdUncle => {
-                return store.findById(createdUncle._id)
-                    .then(foundUncle => {
-                        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-                    });
+                return Promise.all([
+                    Promise.resolve(createdUncle),
+                    store.findById(createdUncle._id)
+                ]);
+            })
+            .then(([createdUncle, foundUncle]) => {
+                expect(foundUncle).toEqual(createdUncle);
             });
     });
 
-    it('find all objects tracked by the store', done => {
-        store.create({ item: 1 }, (err, item1) => {
-            store.create({ item: 2 }, (err, item2) => {
-                store.create({ item: 3 }, (err, item3) => {
-                    store.create({ item: 4 }, (err, item4) => {
-                        store.create({ item: 5 }, (err, item5) => {
-                            store.find((err, listOfItems) => {
-                                expect(err).toBeFalsy();
-                                expect(listOfItems).toHaveLength(5);
-                                expect(listOfItems).toContainEqual(item1);
-                                expect(listOfItems).toContainEqual(item2);
-                                expect(listOfItems).toContainEqual(item3);
-                                expect(listOfItems).toContainEqual(item4);
-                                expect(listOfItems).toContainEqual(item5);
-                                done();
-                            });
-                        });
-                    });
-                });
-            });
+    it('find all objects tracked by the store', () => {
+        const undefinedArray = [...Array(5)];
+        const arrayOfItems = undefinedArray.map((_,index) => {
+            return {
+                item: index
+            };
         });
     });
 
