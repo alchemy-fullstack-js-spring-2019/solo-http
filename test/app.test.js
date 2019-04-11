@@ -9,6 +9,7 @@ describe('app routes', ()=> {
                 expect(res.text).toEqual('happy birthday!');
             });
     });
+    
     it('responds to tester route', ()=> {
         return request(app)
             .get('/tester')
@@ -16,12 +17,21 @@ describe('app routes', ()=> {
                 expect(res.body).toEqual({ testing: 123 });
             });
     });
+
     it('responds to query string', ()=> {
         return request(app)
             .get('/you')
             .query({ name: 'emily' })
             .then(res => {
                 expect(res.text).toEqual('hi there emily');
+            });
+    });
+
+    it('responds to character id', ()=> {
+        return request(app)
+            .get('/character/2')
+            .then(res => {
+                expect(res.body).toEqual('Morty Smith');
             });
     });
 });
