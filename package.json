@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch",
-    "start": "node lib/rickAndMortyChars.js",
-    "start:watch": "nodemon lib/rickAndMortyChars.js"
+    "start": "node rickAndMortyCharsServer.js",
+    "start:watch": "nodemon rickAndMortyCharsServer.js"
   },
   "keywords": [],
   "author": "",
