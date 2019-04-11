@@ -1,12 +1,20 @@
 const request = require('supertest');
-const app = require('../lib/app');
+const { app } = require('../lib/app');
 
 describe('app routes', () => {
   it('responds to birthday route', () => {
     return request(app)
       .get('/birthday')
       .then(res => {
-        expect(res.text).toEqual('Happy Birthday');
+        expect(res.text).toEqual('birthday');
+      });
+  });
+
+  it('sends and recieves json', () => {
+    return request(app)
+      .get('/tester')
+      .then(res => {
+        expect(res.text).toEqual('{ testing: 123 }');
       });
   });
 });
