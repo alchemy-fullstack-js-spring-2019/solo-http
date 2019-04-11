@@ -22,11 +22,11 @@ describe('Store', () => {
   });
 
   it.only('creates an object in my store', done => {
-    store.create({ name: 'ryan' }, (err, createdPerson) => {
-      expect(err).toBeFalsy();
-      expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
-      done();
-    });
+    return store.create({ name: 'ryan' })
+      .then(createdPerson => {
+        expect(createdPerson).toEqual({ name: 'ryan', _id: expect.any(String) });
+        done();
+      });
   });
 
   it('finds an object by id', done => {
