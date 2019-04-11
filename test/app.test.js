@@ -2,5 +2,12 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 describe('app routes', () => {
-    it()
+  it('responds to the birthday route', () => {
+    return request(app)
+      .get('/birthday')
+      .query({ name: 'me' })
+      .then(res => {
+        expect(res.text).toEqual('happy birthday');
+      });
+  });
 });
