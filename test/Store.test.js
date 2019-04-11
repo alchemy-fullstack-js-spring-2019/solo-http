@@ -37,21 +37,22 @@ describe('Store', () => {
   });
 
   it.only('find all objects tracked by the store', () => {
-    for(let i = 1; i < 6; i++) {
-      store.create();
-    }
     const iArr = [1, 2, 3, 4, 5];
     return Promise.all(
-      iArr.forEach(i => store.create({ item: i }))
+      iArr.map(i => {
+        return store.create({ item: i });
+      })
     )
-      .then(store.find())
-      .then(listOfItems => {
-        expect(listOfItems).toHaveLength(5);
-        expect(listOfItems).toContainEqual({ item: 1 });
-        expect(listOfItems).toContainEqual({ item: 2 });
-        expect(listOfItems).toContainEqual({ item: 3 });
-        expect(listOfItems).toContainEqual({ item: 4 });
-        expect(listOfItems).toContainEqual({ item: 5 });
+      .then(createdList => {
+        store.find()
+          .then(listOfItems => {
+            expect(listOfItems).toHaveLength(5);
+            expect(listOfItems).toContainEqual(createdList[0]);
+            expect(listOfItems).toContainEqual(createdList[0]);
+            expect(listOfItems).toContainEqual(createdList[0]);
+            expect(listOfItems).toContainEqual(createdList[0]);
+            expect(listOfItems).toContainEqual(createdList[0]);
+          });
       });
   });
 
