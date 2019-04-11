@@ -1,11 +1,12 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,18 @@
   },
   "dependencies": {
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemy-fullstack-js-spring-2019/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alchemy-fullstack-js-spring-2019/solo-http/issues"
+  },
+  "homepage": "https://github.com/alchemy-fullstack-js-spring-2019/solo-http#readme",
+  "description": ""
 }

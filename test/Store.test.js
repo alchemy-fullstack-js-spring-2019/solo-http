@@ -30,7 +30,12 @@ describe('Store', () => {
   });
 
   it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
+    return store.create({ name: 'uncle bob' })
+      .then(createdUncle => {
+        return Promise.all([
+          // ...
+        ])
+      })
       store.findById(createdUncle._id, (err, foundUncle) => {
         expect(err).toBeFalsy();
         expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
@@ -40,6 +45,19 @@ describe('Store', () => {
   });
 
   it('find all objects tracked by the store', done => {
+    [undefined, undefined, undefined, undefined, undefined]
+    [{ item: 0}, { item: 1}, { item:2 }, { item: 3}, { item: 4 }, { item: 5 }];
+    [store.create({ item: 0}), store.create({ item: 1}), store.create({ item:2 }), store.create({ item: 3}), store.create({ item: 4 }), store.create({ item: 5 })]
+    return Promise.all(
+      [...Array(5)]
+        .map((_, item) => ({
+          item
+        }))
+    )
+    [...Array(5)].map((_, item) => ({
+      item
+    }));
+      .map(store.create);
     store.create({ item: 1 }, (err, item1) => {
       store.create({ item: 2 }, (err, item2) => {
         store.create({ item: 3 }, (err, item3) => {
