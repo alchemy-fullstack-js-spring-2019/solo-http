@@ -76,7 +76,7 @@ describe('server app routing tests', () => {
       });
   });
 
-  it.only('put method with /people/id updates a person', () => {
+  it('put method with /people/id updates a person', () => {
     const testObj = { name: 'chris', age: 33, color: 'orange' };
     const testUpdatedObj = { name: 'jim', age: 22, color: 'black' };
     return People.create(testObj)
