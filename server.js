@@ -1,9 +1,3 @@
-const http = require('http');
-const { parse } = require('url');
+const app = require('./lib/app');
 
-http.createServer((req, res) => {
-  const url = parse(req.url);
-  console.log(url);
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({ name: 'Mal' }));
-}).listen(7890);
+app.listen(7890);
