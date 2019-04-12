@@ -72,7 +72,7 @@
     * grab the id from the path
     * make a request to the rick and morty api using `superagent` (get a character by ID)
     * respond with the name, status, and species of the character as json
-    * HINT: set the content type
+    * HINT: set the content type, ifstatement not switch (url.pathname.includes('/character/')) - user superagent like yesterday's api stuff
 
 ## BONUS/MOB: POSTing data
 

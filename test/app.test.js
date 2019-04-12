@@ -24,7 +24,6 @@ describe('app route', () => {
     return request(app)
       .get('/tester')
       .then(res => {
-        console.log(res.body);
         expect(res.body).toEqual('{ testing: 123 }');
       });
   });
