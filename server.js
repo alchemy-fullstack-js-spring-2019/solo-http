@@ -35,5 +35,3 @@ http.createServer((req, res) => {
   
   res.setHeader('Content-type', 'application/json');
 }).listen(7890);
-
-
