@@ -1,5 +1,7 @@
 const app = require('../lib/app');
+const app2 = require('../lib/app2');
 const request = require('supertest');
+
 
 describe('app test', () => {
   it('tests the paths of a request', () => {
@@ -10,11 +12,24 @@ describe('app test', () => {
       });
   });
 
-  it.only('tests query strings', () => {
+  it('tests query strings', () => {
+    const name = 'ben';
     return request(app)
-      .get('/you?name=ben')
+      .get(`/you?name=${name}`)
       .then(res => {
-        expect(res.body).toEqual({ 'text': `hi there ben` });
+        expect(res.body).toEqual({ 'text': 'hi there ben' });
+      });
+  });
+
+  it.only('tests gets rick and morty characters', () => {
+    return request(app2)
+      .get('/character/1')
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Rick Sanchez',
+          status: 'Alive',
+          species: 'Human'
+        });
       });
   });
 });
