@@ -88,8 +88,6 @@ describe('app routes', () => {
             });
     });
 
-    //     PUT /people/:id` updates a person with :id
-    //   and returns the update
     it('updates a person by id', () => {
         return People.create({ name: 'Bonnie McNeil', age: 32, color: 'red' })
             .then(createdPerson => {
@@ -106,4 +104,19 @@ describe('app routes', () => {
                     });
             });
     });
+
+    //     `DELETE /people/:id` deletes a person with
+    //   :id and returns the delete count
+    it('deletes a person by id and returns delete count of 1', () => {
+        return People.create({ name: 'Bonnie McNeil', age: 32, color: 'red' })
+            .then(createdPerson => {
+                const id = createdPerson._id;
+                return request(app)
+                    .delete(`/people/${id}`)
+                    .then(res => {
+                        expect(res.body).toEqual({ deleted: 1 });
+                    });
+            });
+    });
+
 });
