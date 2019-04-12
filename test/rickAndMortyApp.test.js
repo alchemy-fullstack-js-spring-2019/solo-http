@@ -1,7 +1,7 @@
-const app = require('../../lib/rickAndMortyApp');
 const request = require('supertest');
+const app = require('../lib/rickAndMortyApp');
 
-jest.mock('../../lib/services/rickAndMortyCharacter.js');
+jest.mock('../lib/services/rickAndMortyCharacter.js');
 
 describe('rick and morty character', () => {
   it('gets a character from the rick and morty API', () => {
@@ -12,8 +12,7 @@ describe('rick and morty character', () => {
           name: 'Morty Smith',
           species: 'Human',
           status: 'Alive'
-        }
-        );
+        });
       });
   });
 });
