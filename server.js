@@ -23,5 +23,5 @@ const app = require('./lib/app');
 //     `);
 // }).listen(3000);
 
-app.listen(7890);
+app.listen(3000);
 // mortyServer.listen(4200);
