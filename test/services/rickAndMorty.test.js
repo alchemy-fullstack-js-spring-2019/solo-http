@@ -1,15 +1,21 @@
 const request = require('supertest');
 const { rickNMorty } = require('../../lib/services/rickAndMorty.js');
 
-describe('Test rick return', () => {
-    test('It should return characters', () => {
-        return request(rickNMorty).get('/character/?id=1')
+jest.mock('../lib/services/rickAndMortyApi.js');
+
+describe('app routes', () => {
+    it('creates a person with /people', () => {
+        return request(rickNMorty)
+            .post('/people')
+            .send({ name: 'ryan', age: 32, color: 'red' })
             .then(res => {
-                expect(JSON.parse(res.text)).toEqual({
-                    name: 'Rick Sanchez',
-                    species: 'Human',
-                    status: 'Alive'
+                expect(res.body).toEqual({
+                    name: 'ryan',
+                    age: 32,
+                    color: 'red',
+                    _id: expect.any(String)
                 });
             });
     });
+
 });
