@@ -8,7 +8,7 @@ describe('server app routing tests', () => {
     return People.drop();
   });
 
-  it('creates a person with /people', () => {
+  it.only('creates a person with /people', () => {
     const obj = { name: 'chris', age: 23, color: 'blue' };
     return request(app)
       .post('/people')
