@@ -6,7 +6,7 @@ describe('supertest test', () => {
       return supertest(app)
       .get('/tester')
       .then(res => {
-        expect(res.text).toEqual('T e s t i n g 1 2 3');
+        expect(JSON.parse(res.text)).toEqual({ testing: 123 });
     });
   });
 });
