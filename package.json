@@ -7,7 +7,7 @@
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch",
     "start": "node server.js",
-    "start:watch": "nodemon rickAndMorty.js"
+    "start:watch": "nodemon server1.js"
   },
   "keywords": [],
   "author": "",
