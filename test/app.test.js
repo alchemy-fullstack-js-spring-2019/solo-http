@@ -50,13 +50,25 @@ describe('People database', () => {
     const toSend = { 
       name: 'Tommy',
       age: 24,
-      color: 'orange'
+      color: 'orange',
+      extra: 'extra'
     };
 
     return request(app).post('/people')
       .send(toSend)
       .then(res => {
         expect(res.body).toEqual({ 
+          name: 'Tommy',
+          age: 24,
+          color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+  it('sends back all the people in the database', () => {
+    return request(app).get('/people')
+      .then(res => {
+        expect(res.body).toContainEqual({ 
           name: 'Tommy',
           age: 24,
           color: 'orange',
