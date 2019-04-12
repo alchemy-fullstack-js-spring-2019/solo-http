@@ -1,7 +1,17 @@
 const request = require('supertest');
 const peopleApp = require('../lib/people-app');
+const mkdirp = require('mkdirp');
+const rimraf = require('rimraf');
 
-describe('app routes', () => {
+describe('People routes', () => {
+  beforeAll(done => {
+    mkdirp('./data/people', done);
+  });
+
+  afterAll(done => {
+    rimraf('./data/people', done);
+  });
+
   it('creates a person with /people', () => {
     return request(peopleApp)
       .post('/people')

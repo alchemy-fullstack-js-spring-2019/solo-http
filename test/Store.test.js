@@ -13,7 +13,7 @@ describe('Store', () => {
     store = new Store('./testData/store');
   });
 
-  beforeEach(() => {
+  afterEach(() => {
     return store.drop();
   });
 
