@@ -39,7 +39,7 @@
 
 ## json app
 
-* Create an `app.js` file
+<!-- * Create an `app.js` file
   * export an http listener function (`(req, res) => {}`)
   * respond to `/tester` with `{ testing: 123 }`
   * HINT: set content type
@@ -48,7 +48,7 @@
   * use `createServer` to create an http server with app
   * use `listen` to start server on a port
 * tests
-  * use `supertest` to to test your app
+  * use `supertest` to to test your app -->
 
 ## Query Strings
 

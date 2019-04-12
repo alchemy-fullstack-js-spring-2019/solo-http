@@ -17,4 +17,12 @@ describe('app routes', () => {
         expect(res.body).toEqual({ "testing": 123 });
       });
   });
+
+  it('it can do handl querystrings', () => {
+    return request(app)
+      .get(`/you?name=${name}`)
+      .then( person => {
+        expect(person).toEqual(`${name}`)
+      });
+  });
 });
