@@ -8,7 +8,7 @@ describe('app routes', () => {
     return People.drop();
   });
 
-  test('it adds a person', () => {
+  test('it creates a person with the /people route (POST)', () => {
     const person = {
       name: 'cara',
       age: '35',
@@ -22,12 +22,32 @@ describe('app routes', () => {
   });
 
   test('gets a list of all people with /people', () => {
-    return request(app)
-      .get('/people')
+    return People.create({
+      name: 'tester'
+    })
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
       .then(res => {
         expect(res.body).toHaveLength(1);
       });
   });
+
+  test('gets a person by id', () => {
+    return People.create({
+      name: 'tester'
+    })
+      .then(person => {
+        request(app)
+          .get(`/people/${person._id}`);
+      })
+      .then(res => {
+        expect (res.body).toEqual({ name: 'tester', _id: expect.any(String) });
+      });
+  });
+
+  
 
   // it('tester pathname resolves ', () => {
   //   return request(app).get('/tester')
