@@ -23,20 +23,20 @@ describe('app routes', () => {
             });  
     });
 
-    // it('gets a person by id', () => {
-    //     People.create({ name: 'tester', age: 100, color: 'blue' })
-    //         .then(createdPerson => {
-    //             return request(app)
-    //                 .get(`/people/${createdPerson._id}`);
-    //         })
-    //         .then(res => {
-    //             expect(res.body).toEqual({
-    //                 name: 'tester',
-    //                 age: 100,
-    //                 color: 'blue',
-    //                 _id: expect.any(String)
-    //             });
-    //         });
+    it('gets a person by id', () => {
+        People.create({ name: 'tester', age: 100, color: 'blue' })
+            .then(createdPerson => {
+                return request(app)
+                    .get(`/people/${createdPerson._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    name: 'tester',
+                    age: 100,
+                    color: 'blue',
+                    _id: expect.any(String)
+                });
+            });
 
-    // })
+    })
 });
