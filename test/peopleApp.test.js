@@ -42,7 +42,7 @@ describe('people app', () => {
   });
 
   it('gets a person by id', () => {
-    People.create({ name: 'hey', age: 10, color: 'orange' })
+    return People.create({ name: 'hey', age: 10, color: 'orange' })
       .then(createdPerson => {
         return request(app)
           .get(`/people/${createdPerson._id}`);
