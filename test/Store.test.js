@@ -83,17 +83,15 @@ describe('Store', () => {
       });
   });
 
-  it('updates an existing object', done => {
-    store.create({ name: 'rayn' }, (err, typoCreated) => {
-      store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
-        expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
-        store.findById(typoCreated._id, (err, foundObj) => {
-          expect(foundObj).toEqual(updatedWithoutTypo);
-          done();
+  it('updates an existing object', () => {
+    store.create({ name: 'rayn' })
+      .then(createdItem => {
+        return store.findByIdAndUpdate(createdItem._id, {
+          name: 'ryan'
         });
-
+      })
+      .then(updatedItem => {
+        expect(updatedItem.name).toEqual('ryan');
       });
-    });
   });
 });
