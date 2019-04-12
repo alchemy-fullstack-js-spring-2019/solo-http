@@ -54,8 +54,8 @@ describe('People database', () => {
       extra: 'extra'
     };
 
-    return request(app).post('/people')
-      .send(toSend)
+    return request(app)
+      .post('/people').send(toSend)
       .then(res => {
         expect(res.body).toEqual({ 
           name: 'Tommy',
@@ -67,7 +67,8 @@ describe('People database', () => {
   });
 
   it('sends back all the people in the database', () => {
-    return request(app).get('/people')
+    return request(app)
+      .get('/people')
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));
         expect(res.body).toContainEqual({ 
@@ -87,8 +88,8 @@ describe('People database', () => {
       extra: 'extra'
     };
 
-    return request(app).post('/people')
-      .send(toSend)
+    return request(app)
+      .post('/people').send(toSend)
       .then(res => res.body._id)
       .then(id => request(app).get(`/people/${id}`))
       .then(res => {
@@ -96,6 +97,34 @@ describe('People database', () => {
           name: 'Tommy',
           age: 24,
           color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('updates a person', () => {
+    const toSend = { 
+      name: 'Tommy',
+      age: 24,
+      color: 'orange',
+      extra: 'extra'
+    };
+
+    const toPut = {
+      name: 'Not Tommy',
+      age: 42,
+      color: 'green'
+    };
+
+    return request(app)
+      .post('/people').send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).put(`/people/${id}`).send(toPut))
+      .then(res => {
+        expect(res.body).toEqual({ 
+          name: 'Not Tommy',
+          age: 42,
+          color: 'green',
           _id: expect.any(String)
         });
       });
