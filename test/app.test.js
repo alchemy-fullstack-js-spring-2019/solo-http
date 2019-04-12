@@ -2,7 +2,9 @@ const request = require('supertest');
 const app = require('../lib/app');
 const app2 = require('../lib/jsonapp');
 const app3 = require('../lib/queryapp');
-const rmapp = require('../lib/rmapp');
+const rmapp = require('../lib/services/rmapp');
+
+//jest.mock('../lib/services/rmapp.js');
 
 describe('app routes', () => {
     it('responds to the birthday route', () => {
