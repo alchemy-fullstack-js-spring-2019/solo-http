@@ -85,7 +85,6 @@ describe('Store', () => {
           expect(foundObj).toEqual(updatedWithoutTypo);
           done();
         });
-
       });
     });
   });
