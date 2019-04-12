@@ -28,7 +28,7 @@ describe('Store', () => {
             });
     });
 
-    it.only('finds an object by id', () => {
+    it('finds an object by id', () => {
         return store.create({ name: 'uncle bob' })
             .then(createdUncle => {
                 return Promise.all([
@@ -43,7 +43,7 @@ describe('Store', () => {
 
     it('find all objects tracked by the store', () => {
         const undefinedArray = [...Array(5)];
-        const arrayOfItems = undefinedArray.map((_,index) => {
+        const arrayOfItems = undefinedArray.map((_, index) => {
             return {
                 item: index
             };

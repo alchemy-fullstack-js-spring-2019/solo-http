@@ -16,7 +16,7 @@ describe('app routes', () => {
                 expect(response.body).toEqual({ testing: 123 });
             });
     });
-    it.only('query string', () => {
+    it('query string', () => {
         return request(app)
             .get('/you')
             .query({ name: 'Colin' })
