@@ -3,10 +3,15 @@ const app = require('../lib/app');
 const app2 = require('../lib/jsonapp');
 const app3 = require('../lib/queryapp');
 const rmapp = require('../lib/services/rmapp');
+const People = require('../lib/models/People');
 
 //jest.mock('../lib/services/rmapp.js');
 
 describe('app routes', () => {
+    afterAll(() => {
+        return People.drop();
+    });
+
     // tests old version of app
     // it('responds to the birthday route', () => {
     //     return request(app)
@@ -56,6 +61,50 @@ describe('app routes', () => {
                     color: 'red',
                     _id: expect.any(String)
                 });
+            });
+    });
+
+    it('gets a list of all people with /people', () => {
+        return request(app)
+            .get('/people')
+            .then(res => {
+                expect(res.body).toHaveLength(1);
+            });
+    });
+
+    it('gets a person by id', () => {
+        return People.create({ name: 'Bonnie', age: 32, color: 'red' })
+            .then(createdPerson => {
+                return request(app)
+                    .get(`/people/${createdPerson._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    name: 'Bonnie',
+                    age: 32, 
+                    color: 'red',
+                    _id: expect.any(String)
+                });
+            });
+    });
+
+    //     PUT /people/:id` updates a person with :id
+    //   and returns the update
+    it('updates a person by id', () => {
+        return People.create({ name: 'Bonnie McNeil', age: 32, color: 'red' })
+            .then(createdPerson => {
+                return request(app)
+                    .put(`/people/${createdPerson._id}`)
+                    .send({ name: 'Bonnie', age: 32, color: 'red' })
+                    .then(res => {
+                        console.log(res.body);
+                        expect(res.body).toEqual({
+                            name: 'Bonnie B',
+                            age: 32, 
+                            color: 'red',
+                            _id: expect.any(String)
+                        });
+                    });
             });
     });
 });
