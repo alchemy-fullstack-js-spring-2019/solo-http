@@ -1,17 +1,11 @@
 const request = require('supertest');
 const app = require('../lib/app');
-
-const fsPromises = require('fs').promises;
+const People = require('../lib/models/People');
 
 describe('server app routing tests', () => {
   
   afterEach(() => {
-    return fsPromises.readdir('./data/people')
-      .then(files => {
-        return Promise.all([
-          files.map(file => fsPromises.unlink(`./data/people/${file}`))
-        ]);
-      });
+    return People.drop();
   });
 
   it('creates a person with /people', () => {
@@ -22,5 +16,64 @@ describe('server app routing tests', () => {
       .then(res => {
         expect(res.body).toEqual({ ...obj, _id: expect.any(String) });
       });
+  });
+
+  it('returns all people in directory', () => {
+    const createPromises = [...Array(5)]
+      .map((_, age) => {
+        return {
+          name: 'rando',
+          age,
+          color: 'blue'
+        };
+      })
+      .map(item => {
+        return request(app)
+          .post('/people')
+          .send(item)
+          .then(res => res.body)
+          .catch(err => {
+            console.log(err);
+          });
+      });
+
+    return Promise.all(createPromises)
+      .then(items => {
+        return Promise.all([
+          Promise.resolve(items),
+          request(app).get('/people').then(res => res.body)
+        ]);
+      })
+      .then(([items, foundItems]) => {
+        const [item1, item2, item3, item4, item5] = items;
+        expect(foundItems).toHaveLength(5);
+        expect(foundItems).toContainEqual(item1);
+        expect(foundItems).toContainEqual(item2);
+        expect(foundItems).toContainEqual(item3);
+        expect(foundItems).toContainEqual(item4);
+        expect(foundItems).toContainEqual(item5);
+      });
+  });
+
+  it('return a person using /people/id', () => {
+    const testPerson = {
+      name: 'lauren',
+      age: 25,
+      color: 'blue'
+    };
+    return request(app)
+      .post('/people')
+      .send(testPerson)
+      .then(res => res.body)
+      .then(savedPerson => {
+        return Promise.all([
+          Promise.resolve(savedPerson),
+          request(app).get(`/people/${savedPerson._id}`).then(res => res.body)
+        ]);
+      })
+      .then(([savedPerson, retrievedPerson]) => {
+        expect(savedPerson).toEqual(retrievedPerson);
+      });
+
   });
 });
