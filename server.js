@@ -1,5 +1,5 @@
 const app = require('./lib/app');
-
+const mortyServer = require('./lib/services/rickAndMorty');
 // http.createServer((request, response) => {
 //     const url = parse(request.url);
 //     console.log('client connected...' + url);
@@ -24,3 +24,4 @@ const app = require('./lib/app');
 // }).listen(3000);
 
 app.listen(7890);
+mortyServer.listen(4200); ///brrrraaaaaaaaa
