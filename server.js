@@ -2,6 +2,8 @@ const http = require('http');
 const { parse } = require('url');
 
 http.createServer((req, res) => {
+  // SERVER FOR POST/PARSE INCLUDED
+  
   const url = parse(req.url);
   console.log(url);
   //console.log('Connected!');

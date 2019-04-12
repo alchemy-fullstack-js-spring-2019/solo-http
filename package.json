@@ -5,7 +5,9 @@
   "scripts": {
     "test": "jest --verbose",
     "test:watch": "nodemon server.js",
-    "start:watch:tomservo": "nodemon tomServo.js"
+    "test:watch:tomservo": "nodemon tomServo.js",
+    "test:watch:query": "nodemon queryServo.js",
+    "test:watch:people": "nodemon people.js"
   },
   "keywords": [],
   "author": "",
