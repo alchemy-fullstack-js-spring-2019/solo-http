@@ -6,6 +6,7 @@ const Store = require('../lib/models/Store');
 const fsPromises = require('fs').promises;
 const People = require('../lib/models/People');
 const uuid = require('uuid/v4');
+const request = require('supertest');
 
 // const rootDirectory = path.join(_dirname, '../', 'people');
 
@@ -36,5 +37,19 @@ describe('people app', () => {
         expect(createdPerson).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) });
       });   
   });
+
+  it('creates a person with /people', () => {
+    return request(app)
+      .post('/people')
+      .send({ name: 'patrick', age: 35, color: 'blue' })
+      .then(res => {
+        expect(res.body).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) })
+      });
+  });
+  
+  it('gets people', () => {
+    
+  });
+
 });
 
