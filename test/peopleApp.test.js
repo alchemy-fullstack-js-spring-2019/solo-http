@@ -22,8 +22,8 @@ describe('people app', () => {
   // beforeEach(done => {
   //   people.drop(done);
   // });
-  afterAll(done => {
-    rimraf('./testData', done);
+  afterAll(() => {
+    return People.drop();
   });
 
   it('saves a person', () => {
@@ -43,12 +43,16 @@ describe('people app', () => {
       .post('/people')
       .send({ name: 'patrick', age: 35, color: 'blue' })
       .then(res => {
-        expect(res.body).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) })
+        expect(res.body).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) });
       });
   });
   
-  it('gets people', () => {
-    
+  it('gets a list of all people', () => {
+    return request(app)
+      .get('/people')
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
   });
 
 });
