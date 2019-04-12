@@ -4,10 +4,14 @@ const app2 = require('../lib/jsonapp');
 const app3 = require('../lib/queryapp');
 const rmapp = require('../lib/services/rmapp');
 const People = require('../lib/models/People');
+const mkdirp = require('mkdirp'); 
 
 //jest.mock('../lib/services/rmapp.js');
 
 describe('app routes', () => {
+    beforeAll(done => {
+        mkdirp('./data/people', done);
+    });
     afterAll(() => {
         return People.drop();
     });
