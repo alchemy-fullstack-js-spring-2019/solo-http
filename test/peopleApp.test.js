@@ -11,8 +11,7 @@ const request = require('supertest');
 // const rootDirectory = path.join(_dirname, '../', 'people');
 
 describe('people app', () => {
-
-  afterAll(() => {
+  afterEach(() => {
     return People.drop();
   });
 
@@ -26,10 +25,19 @@ describe('people app', () => {
   });
   
   it('gets a list of all people', () => {
-    return request(app)
-      .get('/people')
+    return People.create({
+      name: 'tester'
+    })
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
       .then(res => {
         expect(res.body).toHaveLength(1);
+        expect(res.body).toContainEqual({
+          name: 'tester', 
+          _id: expect.any(String)
+        });
       });
   });
 
@@ -49,7 +57,7 @@ describe('people app', () => {
       });
   });
   
-  it.only('updates an id and returns updated person', () => {
+  it('updates an id and returns updated person', () => {
     
     People.create({ name: 'hey', age: 10, color: 'orange' })
       .then(createdPerson => {
