@@ -1,4 +1,5 @@
 const app = require('./lib/app');
+const { rick } = require('./lib/rick.js');
 // const mortyServer = require('./lib/services/rickAndMorty');
 // http.createServer((request, response) => {
 //     const url = parse(request.url);
@@ -24,4 +25,4 @@ const app = require('./lib/app');
 // }).listen(3000);
 
 app.listen(3000);
-// mortyServer.listen(4200);
+rickNMorty.listen(4000);
