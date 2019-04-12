@@ -7,13 +7,14 @@ const rmapp = require('../lib/services/rmapp');
 //jest.mock('../lib/services/rmapp.js');
 
 describe('app routes', () => {
-    it('responds to the birthday route', () => {
-        return request(app)
-            .get('/birthday')
-            .then(res => {
-                expect(res.text).toEqual('Happy birthday');
-            });
-    });
+    // tests old version of app
+    // it('responds to the birthday route', () => {
+    //     return request(app)
+    //         .get('/birthday')
+    //         .then(res => {
+    //             expect(res.text).toEqual('Happy birthday');
+    //         });
+    // });
 
     it('app2 responds to the tester route', () => {
         return request(app2)
