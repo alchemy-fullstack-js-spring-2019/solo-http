@@ -2,8 +2,6 @@ const request = require('supertest');
 const appRouting = require('../lib/app-routing');
 const People = require('../lib/models/People');
 
-// jest.mock('../lib/service/rickAndMortyApi.js');
-
 describe('app routes', () => {
   afterAll(() =>{
     return People.drop();
@@ -28,6 +26,22 @@ describe('app routes', () => {
       .get('/people')
       .then(res => {
         expect(res.body).toHaveLength(1);
+      });
+  });
+
+  it('returns a person with id', () => {
+    return People.create({ name: 'kurt', age: 27, color: 'plaid' })
+      .then(person => {
+        return request(appRouting)
+          .get(`/people/${person._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'kurt',
+          age: 27,
+          color: 'plaid',
+          _id: expect.any(String)
+        });
       });
   });
 });
