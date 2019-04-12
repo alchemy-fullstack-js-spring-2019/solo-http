@@ -1,6 +1,8 @@
 const request = require('supertest');
 const appRouting = require('../lib/app-routing');
 
+jest.mock('../lib/service/rickAndMortyApi.js');
+
 describe('app routes', () => {
   it('creates a person with /people', () => {
     return request(appRouting)
