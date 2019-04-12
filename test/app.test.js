@@ -1,6 +1,8 @@
 const request = require('supertest');
 const app = require('../lib/app');
 
+jest.mock('../lib/service/rickAndMortyApi.js');
+
 describe('app routes', ()=> {
     it('responds to the bday route', ()=> {
         return request(app)
@@ -9,7 +11,7 @@ describe('app routes', ()=> {
                 expect(res.text).toEqual('happy birthday!');
             });
     });
-    
+
     it('responds to tester route', ()=> {
         return request(app)
             .get('/tester')
@@ -31,7 +33,7 @@ describe('app routes', ()=> {
         return request(app)
             .get('/character/2')
             .then(res => {
-                expect(res.body).toEqual('Morty Smith');
+                expect(res.text).toEqual('Morty Smith');
             });
     });
 });
