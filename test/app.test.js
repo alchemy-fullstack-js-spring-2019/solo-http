@@ -56,7 +56,7 @@ describe('People database', () => {
     return request(app).post('/people')
       .send(toSend)
       .then(res => {
-        expect(res.body.name).toEqual({ 
+        expect(res.body).toEqual({ 
           name: 'Tommy',
           age: 24,
           color: 'orange',
