@@ -8,7 +8,7 @@ describe('server app routing tests', () => {
     return People.drop();
   });
 
-  it.only('creates a person with /people', () => {
+  it('creates a person with /people', () => {
     const obj = { name: 'chris', age: 23, color: 'blue' };
     return request(app)
       .post('/people')
@@ -76,7 +76,7 @@ describe('server app routing tests', () => {
       });
   });
 
-  it('put method with /people/id updates a person', () => {
+  it.only('put method with /people/id updates a person', () => {
     const testObj = { name: 'chris', age: 33, color: 'orange' };
     const testUpdatedObj = { name: 'jim', age: 22, color: 'black' };
     return People.create(testObj)
