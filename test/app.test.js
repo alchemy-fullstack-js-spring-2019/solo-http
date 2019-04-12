@@ -92,4 +92,16 @@ describe('server app routing tests', () => {
           });
       });
   });
+
+  it('return delete count when deleting with id', () => {
+    return People.create({ name: 'joe', age: 12, color: 'brown' })
+      .then(createdPerson => {
+        return request(app)
+          .delete(`/people/${createdPerson._id}`)
+          .then(res => res.body)
+          .then(deletedObject => {
+            expect(deletedObject).toEqual({ deleted: 1 });
+          });
+      });
+  });
 });
