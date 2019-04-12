@@ -7,7 +7,7 @@ describe('app routes', () => {
       .get('/birthday')
       .query({ name: 'Mal' })
       .then(res => {
-        expect(res.text).toEqual('Happy Birthday');
+        expect(res.text).toEqual('Happy Birthday Mal');
       });
   });
 });
