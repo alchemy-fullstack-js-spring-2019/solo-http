@@ -4,7 +4,7 @@ const People = require('../lib/models/People');
 
 
 describe('people creates a new person', ()=> {
-    afterAll(() => {
+    afterEach(() => {
         return People.drop();
     });
 
@@ -21,15 +21,23 @@ describe('people creates a new person', ()=> {
                 });
             });
     });
+
     it('GET/people returns a list of people in database', ()=> {
-        return request(app)
-            .get('/people')
-            .then(res => {
-                expect(res.body).toHaveLength(1);
+        return People.create({
+            name: 'tester'
+        })
+            .then(()=> {
+                return request(app)
+                    .get('/people')
+                    .then(res => {
+                        expect(res.body).toHaveLength(1);
+                    });
             });
+        
     });
+
     it('GET/people can return a person by id', ()=> {
-        People.create({ name: 'ben', age: 39, color: 'purple' })
+        return People.create({ name: 'ben', age: 39, color: 'purple' })
             .then(createdPerson => {
                 return request(app)
                     .get(`/people/${createdPerson._id}`);
@@ -40,6 +48,29 @@ describe('people creates a new person', ()=> {
                     age: 39,
                     color: 'purple'
                 });
+            });
+    });
+
+    it('PUT/people can update a person by id', ()=> {
+        return People.create({ name: 'benny', age: 39, color: 'purple' })
+            .then(person => {
+                return request(app)
+                    .put(`/people/${person._id}`)
+                    .send({ name: 'ben' });
+            })
+            .then(res => {
+                expect(res.body).toEqual({ name: 'ben', age: 30, color: 'purple'});
+            });
+    });
+
+    it('deletes a person by id', ()=> {
+        return People.create({ name: 'ben', age: 39, color: 'purple' })
+            .then(person => {
+                return request(app)
+                    .delete(`/people/${person._id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({ deleted : 1 });
             });
     });
 });
