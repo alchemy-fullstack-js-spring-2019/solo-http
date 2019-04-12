@@ -43,4 +43,19 @@ describe('app routes', () => {
                 });
             });
     });
+
+    it.only('app creates a person with POST method', () => {
+        //reminder to self: request is supertest
+        return request(app)
+            .post('/people')
+            .send({ name: 'Bonnie', age: 32, color: 'red' })
+            .then(res => {
+                expect(res.body).toEqual({
+                    name: 'Bonnie',
+                    age: 32, 
+                    color: 'red',
+                    _id: expect.any(String)
+                });
+            });
+    });
 });
