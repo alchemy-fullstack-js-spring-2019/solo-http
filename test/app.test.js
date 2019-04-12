@@ -4,7 +4,7 @@ const People = require('../lib/models/People');
 
 
 describe('app routes', () => {
-  afterAll(() => {
+  afterEach(() => {
     return People.drop();
   });
 
@@ -39,7 +39,7 @@ describe('app routes', () => {
       name: 'tester'
     })
       .then(person => {
-        request(app)
+        return request(app)
           .get(`/people/${person._id}`);
       })
       .then(res => {
@@ -47,7 +47,34 @@ describe('app routes', () => {
       });
   });
 
-  
+  test('it updates person by id', () => {
+    return People.create({ name: 'testr' })
+      .then(person => {
+        return request(app)
+          .put(`/people/${person._id}`).send({ name: 'cara' })
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'cara',
+              _id: expect.any(String)
+            });
+          });
+      });
+  });
+
+  test('Deletes a thing by ID', () => {
+    return People.create({ name: 'test' })
+      .then(person => {
+        return request(app)
+          .delete(`/people/${person._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          deleted: 1
+        });
+      });
+  });
+
+
 
   // it('tester pathname resolves ', () => {
   //   return request(app).get('/tester')
