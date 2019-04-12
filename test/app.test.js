@@ -44,3 +44,24 @@ describe('app routes', () => {
       });
   });
 });
+
+describe('People database', () => {
+  it('with POST, it parses the body and adds new person to People database', () => {
+    const toSend = { 
+      name: 'Tommy',
+      age: 24,
+      color: 'orange'
+    };
+
+    return request(app).post('/people')
+      .send(toSend)
+      .then(res => {
+        expect(res.body.name).toEqual({ 
+          name: 'Tommy',
+          age: 24,
+          color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+});
