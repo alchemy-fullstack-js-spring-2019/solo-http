@@ -1,7 +1,6 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
@@ -23,5 +22,18 @@
   },
   "dependencies": {
     "superagent": "^5.0.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColCoutts/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ColCoutts/solo-http/issues"
+  },
+  "homepage": "https://github.com/ColCoutts/solo-http#readme",
+  "description": ""
 }
