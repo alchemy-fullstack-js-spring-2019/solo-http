@@ -65,10 +65,34 @@ describe('People database', () => {
         });
       });
   });
+
   it('sends back all the people in the database', () => {
     return request(app).get('/people')
       .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
         expect(res.body).toContainEqual({ 
+          name: 'Tommy',
+          age: 24,
+          color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('sends back a person based on id', () => {
+    const toSend = { 
+      name: 'Tommy',
+      age: 24,
+      color: 'orange',
+      extra: 'extra'
+    };
+
+    return request(app).post('/people')
+      .send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).get(`/people/${id}`))
+      .then(res => {
+        expect(res.body).toEqual({ 
           name: 'Tommy',
           age: 24,
           color: 'orange',
