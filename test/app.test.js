@@ -1,6 +1,8 @@
 const app = require('../lib/app.js');
 const request = require('supertest');
 
+jest.mock('../lib/service/getCharacter.js');
+
 describe('app routes', () => {
   it('responds to a path', () => {
     return request(app)
@@ -23,7 +25,7 @@ describe('app routes', () => {
       .get('/character/1')
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Rick Sanchez',
+          name: 'Tommy Tran',
           status: 'Alive',
           species: 'Human'
         });
