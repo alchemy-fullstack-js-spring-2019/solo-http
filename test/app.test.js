@@ -1,35 +1,62 @@
 const app = require('../lib/app');
-const app2 = require('../lib/app2');
+// const app2 = require('../lib/app2');
 const request = require('supertest');
+const People = require('../lib/models/People');
 
 
-describe('app test', () => {
-  it('tests the paths of a request', () => {
-    return request(app)
-      .get('/tester')
-      .then(res => {
-        expect(res.body).toEqual({ 'firstName': 'mister', 'lastName': 'Testy' });
-      });
+// describe('app test', () => {
+//   it('tests the paths of a request', () => {
+//     return request(app)
+//       .get('/tester')
+//       .then(res => {
+//         expect(res.body).toEqual({ 'firstName': 'mister', 'lastName': 'Testy' });
+//       });
+//   });
+
+//   it('tests query strings', () => {
+//     const name = 'ben';
+//     return request(app)
+//       .get(`/you?name=${name}`)
+//       .then(res => {
+//         expect(res.body).toEqual({ 'text': 'hi there ben' });
+//       });
+//   });
+
+//   it('tests gets rick and morty characters', () => {
+//     return request(app2)
+//       .get('/character/1')
+//       .then(res => {
+//         expect(res.body).toEqual({
+//           name: 'Rick Sanchez',
+//           status: 'Alive',
+//           species: 'Human'
+//         });
+//       });
+//   });
+// });
+
+describe('person creation', () => {
+  afterAll(() => {
+    return People.drop();
   });
-
-  it('tests query strings', () => {
-    const name = 'ben';
+  it('creates a person with /people', () => {
     return request(app)
-      .get(`/you?name=${name}`)
-      .then(res => {
-        expect(res.body).toEqual({ 'text': 'hi there ben' });
-      });
-  });
-
-  it.only('tests gets rick and morty characters', () => {
-    return request(app2)
-      .get('/character/1')
+      .post('/people')
+      .send({ name: 'ben', age: 36, color: 'blue' })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Rick Sanchez',
-          status: 'Alive',
-          species: 'Human'
+          name: 'ben',
+          age: 36,
+          color: 'blue',
+          _id: expect.any(String)
         });
+      });
+  });
+  it('gets a list of all people from /people', () => {
+    return request(app)
+      .get('/people')
+      .then(res => {
+        expect(res.body).toHaveLength(1);
       });
   });
 });
