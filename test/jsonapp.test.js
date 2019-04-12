@@ -1,8 +1,12 @@
 const request = require('supertest');
-const app = require('../lib/jsonapp');
+const jsonapp = require('../lib/jsonapp');
 
 describe('test should route path', () => {
   it('should respond to tester ', () => {
-    return request()
+    return request(jsonapp)
+      .get('/tester')
+      .then(res => {
+        expect(res.body).toEqual(({ testing: 123 }));
+      });
   });
 });
