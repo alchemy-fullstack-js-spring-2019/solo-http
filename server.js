@@ -1,5 +1,5 @@
 const app = require('./lib/app');
-const { rickNMorty } = require('./lib/rick.js');
+const { rickNMorty } = require('./lib/services/rickAndMorty');
 // const mortyServer = require('./lib/services/rickAndMorty');
 // http.createServer((request, response) => {
 //     const url = parse(request.url);

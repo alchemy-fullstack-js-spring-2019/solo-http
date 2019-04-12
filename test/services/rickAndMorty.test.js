@@ -1,7 +1,7 @@
 const request = require('supertest');
-const { rickNMorty } = require('../../lib/services/rickAndMorty.js');
+const { rickNMorty } = require('../../lib/services/rickAndMorty');
 
-jest.mock('../lib/services/rickAndMortyApi.js');
+jest.mock('../../lib/services/rickAndMorty.js');
 
 describe('app routes', () => {
     it('creates a person with /people', () => {
