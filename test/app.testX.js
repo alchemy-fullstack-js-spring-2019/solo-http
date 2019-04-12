@@ -20,7 +20,7 @@ describe('app route', () => {
       });
   });
 
-  it.only('match that test JSON', () => {
+  it('match that test JSON', () => {
     return request(app)
       .get('/tester')
       .then(res => {

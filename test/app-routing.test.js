@@ -1,21 +1,28 @@
 const request = require('supertest');
 const appRouting = require('../lib/app-routing');
 
-jest.mock('../lib/service/rickAndMortyApi.js');
+// jest.mock('../lib/service/rickAndMortyApi.js');
 
 describe('app routes', () => {
-  it('creates a person with /people', () => {
+  // it('creates a person with /people', () => {
+  //   return request(appRouting)
+  //     .post('/people')
+  //     .send({ name: 'ryan', age: 32, color: 'red' })
+  //     .then(res => {
+  //       expect(res.body).toEqual({
+  //         name: 'ryan',
+  //         age: 32,
+  //         color: 'red',
+  //         _id: expect.any(String)
+  //       });
+  //     });
+  // });
+  
+  it('returns a list of people', () => {
     return request(appRouting)
-      .post('/people')
-      .send({ name: 'ryan', age: 32, color: 'red' })
+      .get('/people')
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'ryan',
-          age: 32,
-          color: 'red',
-          _id: expect.any(String)
-        });
+        expect(res.body).toHaveLength(1);
       });
   });
-
 });
