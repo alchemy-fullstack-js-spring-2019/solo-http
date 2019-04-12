@@ -95,9 +95,8 @@ describe('app routes', () => {
             .then(createdPerson => {
                 return request(app)
                     .put(`/people/${createdPerson._id}`)
-                    .send({ name: 'Bonnie', age: 32, color: 'red' })
+                    .send({ name: 'Bonnie B', age: 32, color: 'red' })
                     .then(res => {
-                        console.log(res.body);
                         expect(res.body).toEqual({
                             name: 'Bonnie B',
                             age: 32, 
