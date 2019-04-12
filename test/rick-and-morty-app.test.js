@@ -9,7 +9,7 @@ describe('rick and morty app routes', () =>{
       .get('/character/3')
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Leslie',
+          name: 'Summer Smith',
           species: 'Human',
           status: 'Alive'
         });
