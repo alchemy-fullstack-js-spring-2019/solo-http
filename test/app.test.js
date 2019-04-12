@@ -1,5 +1,6 @@
 const app = require('../lib/app.js');
 const request = require('supertest');
+const People = require('../lib/models/People');
 
 jest.mock('../lib/service/getCharacter.js');
 
@@ -46,6 +47,8 @@ describe('app routes', () => {
 });
 
 describe('People database', () => {
+  afterAll(() => People.drop());
+  
   it('with POST, it parses the body and adds new person to People database', () => {
     const toSend = { 
       name: 'Tommy',
@@ -126,6 +129,25 @@ describe('People database', () => {
           age: 42,
           color: 'green',
           _id: expect.any(String)
+        });
+      });
+  });
+
+  it('deletes a person based on id', () => {
+    const toSend = { 
+      name: 'Tommy',
+      age: 24,
+      color: 'orange',
+      extra: 'extra'
+    };
+
+    return request(app)
+      .post('/people').send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).delete(`/people/${id}`))
+      .then(res => {
+        expect(res.body).toEqual({ 
+          deleted: 1
         });
       });
   });
