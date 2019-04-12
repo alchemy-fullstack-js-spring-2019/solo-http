@@ -44,7 +44,7 @@ describe('app routes', () => {
             });
     });
 
-    it.only('app creates a person with POST method', () => {
+    it('app creates a person with POST method', () => {
         //reminder to self: request is supertest
         return request(app)
             .post('/people')
