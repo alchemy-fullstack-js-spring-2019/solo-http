@@ -10,32 +10,10 @@ const request = require('supertest');
 
 // const rootDirectory = path.join(_dirname, '../', 'people');
 
-let people;
-
 describe('people app', () => {
-  beforeAll(done => {
-    mkdirp('./testData/people', done);
-  });
-  beforeEach(() => {
-    people = new Store('./testData/people');
-  });
-  // beforeEach(done => {
-  //   people.drop(done);
-  // });
+
   afterAll(() => {
     return People.drop();
-  });
-
-  it('saves a person', () => {
-    return people.create({ 
-      name: 'patrick', 
-      age: 35, 
-      color: 'blue',
-      _id: uuid() 
-    })
-      .then(createdPerson => {
-        expect(createdPerson).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) });
-      });   
   });
 
   it('creates a person with /people', () => {
@@ -55,5 +33,36 @@ describe('people app', () => {
       });
   });
 
+  it('gets a person by id', () => {
+    People.create({ name: 'hey', age: 10, color: 'orange' })
+      .then(createdPerson => {
+        return request(app)
+          .get(`/people/${createdPerson._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'hey',
+          age: 10,
+          color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+  
+  it.only('updates an id and returns updated person', () => {
+    
+    People.create({ name: 'hey', age: 10, color: 'orange' })
+      .then(createdPerson => {
+        return request(app)
+          .get(`/people/${createdPerson._id}`);
+      })
+      .then(foundPerson => {
+        People.findByIdAndUpdate(foundPerson._id, updatedPerson);
+      })
+      .then(updatedPerson => {
+        console.log(updatedPerson);
+        expect(updatedPerson).toEqual({ name: 'hey', age: 10, color: 'orange', id: 'hello' });
+      });
+  });
 });
 
