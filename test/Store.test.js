@@ -42,9 +42,6 @@ describe('Store', () => {
     });
 
     it('find all objects tracked by the store', () => {
-    // [undefined, undefined, undefined, undefined, undefined]
-    // [{ item: 0 }, { item: 1 }, { item: 2 },  { item: 3 }, { item: 4 }]
-    // [store.create({ item: 0 }), store.create({ item: 1 }, store.create({ item: 2 }, store.create({ item: 3 }, store.create({ item: 4 }, store.create({ item: 5 }]
         const undefinedArray = [...Array(5)];
         const arrayOfItems = undefinedArray.map((_, index) => {
             return {
