@@ -28,14 +28,17 @@ describe('Store', () => {
       });
   });
 
-  it('finds an object by id', done => {
-    store.create({ name: 'uncle bob' }, (err, createdUncle) => {
-      store.findById(createdUncle._id, (err, foundUncle) => {
-        expect(err).toBeFalsy();
-        expect(foundUncle).toEqual({ name: 'uncle bob', _id: createdUncle._id });
-        done();
+  it('finds an object by id', () => {
+    return store.create({ name: 'uncle bob' })
+      .then(createdUncle => {
+        return Promise.all([
+          Promise.resolve(createdUncle),
+          store.findById(createdUncle._id)
+        ]);
+      })
+      .then(([createdUncle, foundUncle]) => {
+        expect(foundUncle).toEqual(createdUncle);
       });
-    });
   });
 
   it('find all objects tracked by the store', done => {
