@@ -1,7 +1,7 @@
 const app = require('../../lib/rickAndMortyApp');
 const request = require('supertest');
 
-jest.mock('../../lib/services/rickAndMortyApp.js');
+jest.mock('../../lib/services/rickAndMortyCharacter');
 
 describe('rick and morty character', () => {
   it('gets a character from the rick and morty API', () => {
