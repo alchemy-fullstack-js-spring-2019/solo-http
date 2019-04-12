@@ -1,3 +1,4 @@
-const app = require('./lib/app');
+const jsonapp = require('./lib/jsonapp');
 
-app.listen(2121);
+
+jsonapp.listen(2121);
