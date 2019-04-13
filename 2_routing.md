@@ -1,13 +1,13 @@
 # HTTP Routing
 
-<!-- * Copy over your simple-database files into
-  `lib/models` and `test/models` -->
+* Copy over your simple-database files into
+  `lib/models` and `test/models`
 
 ## people
 
-<!-- * create a people rest API -->
-<!-- * use simple-database to save people -->
-<!-- * a person has name, age, and favorite color -->
+* create a people rest API
+* use simple-database to save people
+* a person has name, age, and favorite color
 * `POST /people` creates a new person and sends
   back json
 * `GET /people` returns a list of people

@@ -2,27 +2,17 @@ const request = require('supertest');
 const { app } = require('../lib/app');
 
 describe('app routes', () => {
-  it('responds to birthday route', () => {
+  it('creates a person with /people', () => {
     return request(app)
-      .get('/birthday')
+      .post('/people')
+      .send({ name: 'name', age: 32, color: 'red' })
       .then(res => {
-        expect(res.text).toEqual('birthday');
-      });
-  });
-
-  it('sends and recieves json', () => {
-    return request(app)
-      .get('/tester')
-      .then(res => {
-        expect(res.body).toEqual({ "testing": 123 });
-      });
-  });
-
-  it('it can do handl querystrings', () => {
-    return request(app)
-      .get(`/you?name=${name}`)
-      .then( person => {
-        expect(person).toEqual(`${name}`)
+        expect(res.body).toEqual({
+          name: 'name',
+          age: 32,
+          color: 'red',
+          _id: expect.any(String)
+        });
       });
   });
 });
