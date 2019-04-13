@@ -7,7 +7,7 @@ describe('app routes', () => {
     return People.drop();
   });
 
-  it.only('POSTS/creates a person to /people route', () => {
+  it('POSTS/creates a person to /people route', () => {
     return request(app)
       .post('/people')
       .send({ name: 'test' })
@@ -19,7 +19,7 @@ describe('app routes', () => {
       });
   });
 
-  it('GETS a list of all people', () => {
+  it.only('GETS a list of all people', () => {
     return People.create({ 
       name: 'blinky', 
       age: 14, 
