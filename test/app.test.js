@@ -19,7 +19,7 @@ describe('app routes', () => {
       });
   });
 
-  it.only('GETS a list of all people', () => {
+  it('GETS a list of all people', () => {
     return People.create({ 
       name: 'blinky', 
       age: 14, 
@@ -56,7 +56,7 @@ describe('app routes', () => {
       });
   });
 
-  it('updates a person by id', () => {
+  it.only('updates a person by id', () => {
     return People.create({ name: 'testter' })
       .then(person => {
         return request(app)
