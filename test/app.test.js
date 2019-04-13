@@ -56,7 +56,7 @@ describe('app routes', () => {
       });
   });
 
-  it.only('updates a person by id', () => {
+  it('updates a person by id', () => {
     return People.create({ name: 'testter' })
       .then(person => {
         return request(app)
