@@ -7,15 +7,13 @@ describe('app routes', () => {
     return People.drop();
   });
 
-  it('POSTS/creates a person to /people route', () => {
+  it.only('POSTS/creates a person to /people route', () => {
     return request(app)
       .post('/people')
-      .send({ name: 'cu', age: 12, color: 'beige' })
+      .send({ name: 'test' })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'cu',
-          age: 12,
-          color: 'beige',
+          name: 'test',
           _id: expect.any(String)
         });
       });
