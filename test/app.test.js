@@ -1,22 +1,28 @@
 const request = require('supertest');
-const app = require('../lib/app');
+const app = require('../server');
+const People = require('../lib/model/People');
 
-jest.mock()
+// jest.mock('../lib/services/__mocks__/rickAndMortyApi.js');
 
 describe('app routes', () => {
-//   it('responds to the birthday route', () => {
-//     return request(app)
-//       .get('/birthday')
-//       .query({ name: 'me' })
-//       .then(res => {
-//         expect(res.text).toEqual('happy birthday');
-//       });
-//   });
-  it('returns a character', () => 
-  {
+  afterAll(() =>{
+    return People.drop();
+  });
+  it('creates a person => /people', () => {
     return request(app)
-      .get('/character/1')
-      .then(res => console.log(res.body));
-      
+      .post('/people') 
+      .send({ name: 'Auntie Mame', age: 89, color: 'chartreuse' })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Auntie Mame',
+          age: 89,
+          color: 'chartreuse'
+        });
+      });
   });
 });
+
+// it('gets a list of all people from /people', () => {
+//   return request(app)
+//   .get('/People');
+// });
