@@ -1,6 +1,7 @@
 const app = require('../lib/app.js');
 const request = require('supertest');
 const People = require('../lib/models/People');
+const Cars = require('../lib/models/Cars');
 
 jest.mock('../lib/service/getCharacter.js');
 
@@ -145,6 +146,113 @@ describe('People database', () => {
       .post('/people').send(toSend)
       .then(res => res.body._id)
       .then(id => request(app).delete(`/people/${id}`))
+      .then(res => {
+        expect(res.body).toEqual({ 
+          deleted: 1
+        });
+      });
+  });
+});
+
+describe('Cars database', () => {
+  afterAll(() => Cars.drop());
+  
+  it('with POST, it parses the body and adds new car to Cars database', () => {
+    const toSend = { 
+      brand: 'Tommy',
+      model: 'orange',
+      year: 24,
+      extra: 'extra'
+    };
+
+    return request(app)
+      .post('/cars').send(toSend)
+      .then(res => {
+        expect(res.body).toEqual({ 
+          brand: 'Tommy',
+          model: 'orange',
+          year: 24,
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('sends back all the cars in the database', () => {
+    return request(app)
+      .get('/cars')
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body).toContainEqual({ 
+          brand: 'Tommy',
+          model: 'orange',
+          year: 24,
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('sends back a car based on id', () => {
+    const toSend = { 
+      brand: 'Tommy',
+      model: 'orange',
+      year: 24,
+      extra: 'extra'
+    };
+
+    return request(app)
+      .post('/cars').send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).get(`/cars/${id}`))
+      .then(res => {
+        expect(res.body).toEqual({ 
+          brand: 'Tommy',
+          model: 'orange',
+          year: 24,
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('updates a car', () => {
+    const toSend = { 
+      brand: 'Tommy',
+      model: 'orange',
+      year: 24,
+      extra: 'extra'
+    };
+
+    const toPut = {
+      brand: 'Not Tommy',
+      model: 'green',
+      year: 42
+    };
+
+    return request(app)
+      .post('/cars').send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).put(`/cars/${id}`).send(toPut))
+      .then(res => {
+        expect(res.body).toEqual({ 
+          brand: 'Not Tommy',
+          model: 'green',
+          year: 42,
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('deletes a car based on id', () => {
+    const toSend = { 
+      brand: 'Tommy',
+      model: 'orange',
+      year: 24,
+      extra: 'extra'
+    };
+
+    return request(app)
+      .post('/cars').send(toSend)
+      .then(res => res.body._id)
+      .then(id => request(app).delete(`/cars/${id}`))
       .then(res => {
         expect(res.body).toEqual({ 
           deleted: 1
