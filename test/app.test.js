@@ -57,15 +57,13 @@ describe('app routes', () => {
         //reminder to self: request is supertest
         return request(app)
             .post('/people')
-            .send({ name: 'Bonnie', age: 32, color: 'red' })
+            .send({ name: 'Bonnie B' })
             .then(res => {
                 expect(res.body).toEqual({
-                    name: 'Bonnie',
-                    age: 32, 
-                    color: 'red',
+                    name: 'Bonnie B',
                     _id: expect.any(String)
                 });
-            });
+            }); 
     });
 
     it('gets a list of all people with /people', () => {
@@ -77,40 +75,34 @@ describe('app routes', () => {
     });
 
     it('gets a person by id', () => {
-        return People.create({ name: 'Bonnie', age: 32, color: 'red' })
-            .then(createdPerson => {
+        return People.create({ name: 'Bonnie' })
+            .then(createdPerson => { 
                 return request(app)
                     .get(`/people/${createdPerson._id}`);
             })
             .then(res => {
                 expect(res.body).toEqual({
                     name: 'Bonnie',
-                    age: 32, 
-                    color: 'red',
                     _id: expect.any(String)
                 });
             });
     });
 
     it('updates a person by id', () => {
-        return People.create({ name: 'Bonnie McNeil', age: 32, color: 'red' })
+        return People.create({ name: 'Bonnie McNeil' })
             .then(createdPerson => {
                 return request(app)
                     .put(`/people/${createdPerson._id}`)
-                    .send({ name: 'Bonnie B', age: 32, color: 'red' })
+                    .send({ name: 'Bonnie B' })
                     .then(res => {
                         expect(res.body).toEqual({
                             name: 'Bonnie B',
-                            age: 32, 
-                            color: 'red',
                             _id: expect.any(String)
-                        });
+                        });  
                     });
             });
     });
 
-    //     `DELETE /people/:id` deletes a person with
-    //   :id and returns the delete count
     it('deletes a person by id and returns delete count of 1', () => {
         return People.create({ name: 'Bonnie McNeil', age: 32, color: 'red' })
             .then(createdPerson => {
