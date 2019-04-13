@@ -58,18 +58,32 @@ describe('people app', () => {
   });
   
   it('updates an id and returns updated person', () => {
-    
-    People.create({ name: 'hey', age: 10, color: 'orange' })
+    return People.create({ name: 'hey', age: 10, color: 'orange' })
       .then(createdPerson => {
         return request(app)
-          .get(`/people/${createdPerson._id}`);
+          .put(`/people/${createdPerson._id}`)
+          .send({ name: 'new' });
       })
-      .then(foundPerson => {
-        People.findByIdAndUpdate(foundPerson._id, updatedPerson);
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'new',
+          age: 10,
+          color: 'orange',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('deletes a person by id', () => {
+    return People.create({ name: 'tester' })
+      .then(person => {
+        return request(app) 
+          .delete(`/people/${person._id}`);
       })
-      .then(updatedPerson => {
-        console.log(updatedPerson);
-        expect(updatedPerson).toEqual({ name: 'hey', age: 10, color: 'orange', id: 'hello' });
+      .then(res => {
+        expect(res.body).toEqual({
+          deleted: 1
+        });
       });
   });
 });
