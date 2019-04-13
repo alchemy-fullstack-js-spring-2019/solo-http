@@ -22,16 +22,26 @@ describe('app routes', () => {
   });
 
   it('GETS a list of all people', () => {
-    return People.create({ name: 'blinky', age: 14, color: 'puce' })
-      .then(createdPerson => {
+    return People.create({ 
+      name: 'blinky', 
+      age: 14, 
+      color: 'puce' 
+    })
+      .then(() => {
         return request(app)
-          .get('/people')
-          .then(res=> {
-            expect(res.body).toHaveLength(1);
-          });
+          .get('/people');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body).toContainEqual({
+          name: 'blinky', 
+          age: 14, 
+          color: 'puce',
+          _id: expect.any(String)
+        });
       });
   });
-//make a person, expect to get that person back by id
+
   it('GETS a person by id', () => {
     return People.create({ name: 'tester', age: 100, color: 'blue' })
       .then(createdPerson => {
@@ -47,12 +57,19 @@ describe('app routes', () => {
         });
       });
   });
-//create a person, update with people.create with error, expect the corrected person
-  it('PUTS/updates a person with :id and returns the update', () => {
-    return People.create({ name: 'boofy', age: 29, color: 'purple' })
-      .then(updatedPerson => {
+
+  it('updates a person by id', () => {
+    return People.create({ name: 'testter' })
+      .then(person => {
         return request(app)
-          .get(`/people/${updatedPerson._id}`);
+          .put(`/people/${person._id}`)
+          .send({ name: 'tester' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'tester',
+          _id: expect.any(String)
+        });
       });
   });
 
