@@ -146,4 +146,16 @@ describe('app routes', () => {
         });
       });
   });
+  it('DELETE a toy by id', () => {
+    return Toys.create({ type: 'kite' })
+      .then(toy => {
+        return request(app)
+          .delete(`/toys/${toy._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          deleted: 1
+        });
+      });
+  });
 });
