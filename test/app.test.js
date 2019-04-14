@@ -102,7 +102,7 @@ describe('app routes', () => {
   });
 
   it('GET a list of toys with the /toys route', () => {
-    return Toys.create ({
+    return Toys.create({
       type: 'ball'
     })
       .then(() => {
@@ -113,6 +113,20 @@ describe('app routes', () => {
         expect(res.body).toHaveLength(1);
         expect(res.body).toContainEqual({
           type: 'ball',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('GETS a toy by id', () => {
+    return Toys.create({ type: 'chess' })
+      .then(toy => {
+        return request(app)
+          .get(`/toys/${toy._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          type: 'chess',
           _id: expect.any(String)
         });
       });
