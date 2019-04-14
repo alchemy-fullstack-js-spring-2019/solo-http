@@ -1,3 +1,3 @@
-const app = require('./lib/peopleApp');
+const peopleApp = require('./lib/peopleApp');
 
-app.listen(3000);
+peopleApp.listen(3333);
