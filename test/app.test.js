@@ -127,7 +127,7 @@ describe('server app routing tests for people', () => {
       });
   });
   
-  it.only('put method with /people/id updates a person and SW character and checks if char has been updated', () => {
+  it('put method with /people/id updates a person and SW character and checks if char has been updated', () => {
     const testObj = { name: 'chris', age: 33, color: 'orange', favoriteCharacterId: 1 };
     const testUpdatedObj = { name: 'jim', age: 22, color: 'black', favoriteCharacterId: 1 };
 
