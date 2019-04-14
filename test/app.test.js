@@ -15,7 +15,7 @@ describe('server app routing tests for people', () => {
       .post('/people')
       .send(obj)
       .then(res => {
-        expect(res.body).toEqual({ ...obj, _id: expect.any(String) });
+        expect(res.body).toEqual({ ...obj, favoriteCharacterId: null, favoriteCharacter: {}, _id: expect.any(String) });
       });
   });
 
