@@ -24,8 +24,7 @@
   },
   "directories": {
     "lib": "lib",
-    "test": "test",
-    "data": "data"
+    "test": "test"
   },
   "repository": {
     "type": "git",
