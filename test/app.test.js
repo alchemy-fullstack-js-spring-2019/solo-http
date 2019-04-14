@@ -131,4 +131,19 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('PUT/updates a toy by id', () => {
+    return Toys.create({ type: 'trck' })
+      .then(toy => {
+        return request(app)
+          .put(`/toys/${toy._id}`)
+          .send({ type: 'truck' });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          type: 'truck',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
