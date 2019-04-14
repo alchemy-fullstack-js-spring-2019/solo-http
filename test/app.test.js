@@ -104,4 +104,15 @@ describe('server app routing tests', () => {
           });
       });
   });
+
+  it('returns a status of not found if path doesn\'t exist', () => {
+    const obj = { name: 'chris', age: 23, color: 'blue' };
+    return request(app)
+      .post('/notfound')
+      .send(obj)
+      .then(res => {
+        expect(res.text).toBe('Not Found');
+        expect(res.status).toBe(404);
+      });
+  });
 });
