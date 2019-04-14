@@ -68,7 +68,7 @@ describe('Store', () => {
   });
 
   it('deletes an object with an id', () => {
-    return store.create({ item: 'I am going to deelte' })
+    return store.create({ item: 'I am going to delete' })
       .then(createdItem => {
         return Promise.all([
           Promise.all(createdItem),
