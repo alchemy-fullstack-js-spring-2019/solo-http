@@ -3,6 +3,8 @@ const app = require('../lib/app');
 const People = require('../lib/models/People');
 const Tasks = require('../lib/models/Tasks');
 
+jest.mock('../lib/service/getSWCharacter.js');
+
 describe('server app routing tests for people', () => {
   
   afterEach(() => {
@@ -16,6 +18,23 @@ describe('server app routing tests for people', () => {
       .send(obj)
       .then(res => {
         expect(res.body).toEqual({ ...obj, favoriteCharacterId: null, favoriteCharacter: {}, _id: expect.any(String) });
+      });
+  });
+
+  it('creates a person with /people and adds favorite SW character', () => {
+    const favoriteCharacter = {
+      name: 'James Skywalker',
+      height: '172',
+      mass: '77',
+      hairColor: 'blond',
+      birthYear: '19BBY'
+    };
+    const objSW = { name: 'dan', age: 55, color: 'orange', favoriteCharacterId: 1 };
+    return request(app)
+      .post('/people')
+      .send(objSW)
+      .then(res => {
+        expect(res.body).toEqual({ ...objSW, favoriteCharacterId: 1, favoriteCharacter, _id: expect.any(String) });
       });
   });
 
