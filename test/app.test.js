@@ -93,7 +93,7 @@ describe('server app routing tests for people', () => {
       });
   });
 
-  it.only('put method with /people/id updates a person', () => {
+  it('put method with /people/id updates a person', () => {
     const testObj = { name: 'chris', age: 33, color: 'orange' };
     const testUpdatedObj = { name: 'jim', age: 22, color: 'black' };
     return People.create(testObj)
@@ -110,13 +110,33 @@ describe('server app routing tests for people', () => {
       });
   });
   
-  it.only('put method with /people/id updates a person and SW character', () => {
+  it('put method with /people/id updates a person and SW character', () => {
     const testObj = { name: 'chris', age: 33, color: 'orange' };
     const testUpdatedObj = { name: 'jim', age: 22, color: 'black', favoriteCharacterId: 1 };
     return People.create(testObj)
       .then(createdPerson => {
         return request(app)
           .put(`/people/${createdPerson._id}`)
+          .send(testUpdatedObj);
+      })
+      .then(updatedPerson => {
+        return People.findById(updatedPerson.body._id)
+          .then(foundPerson => {
+            expect(foundPerson).toEqual(updatedPerson.body);
+          });
+      });
+  });
+  
+  it.only('put method with /people/id updates a person and SW character and checks if char has been updated', () => {
+    const testObj = { name: 'chris', age: 33, color: 'orange', favoriteCharacterId: 1 };
+    const testUpdatedObj = { name: 'jim', age: 22, color: 'black', favoriteCharacterId: 1 };
+
+    return request(app)
+      .post('/people')
+      .send(testObj)
+      .then(createdPerson => {
+        return request(app)
+          .put(`/people/${createdPerson.body._id}`)
           .send(testUpdatedObj);
       })
       .then(updatedPerson => {
