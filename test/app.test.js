@@ -115,4 +115,30 @@ describe('server app routing tests', () => {
         expect(res.status).toBe(404);
       });
   });
+
+  it('returns a status of not found if id doesn\'t exist for get, put, and delete', () => {
+    const badId = '/people/1234';
+    const obj = { name: 'chris', age: 23, color: 'blue' };
+    request(app)
+      .get(badId)
+      .then(res => {
+        expect(res.text).toBe('Not Found');
+        expect(res.status).toBe(404);
+      });
+      
+    request(app)
+      .put(badId)
+      .send(obj)
+      .then(res => {
+        expect(res.text).toBe('Not Found');
+        expect(res.status).toBe(404);
+      });
+    
+    request(app)
+      .delete(badId)
+      .then(res => {
+        expect(res.text).toBe('Not Found');
+        expect(res.status).toBe(404);
+      });
+  });
 });
