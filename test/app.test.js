@@ -1,10 +1,14 @@
 const request = require('supertest');
 const app = require('../lib/app');
 const People = require('../lib/models/People');
+const Toys = require('../lib/models/Toys');
 
 describe('app routes', () => {
   afterEach(() => {
     return People.drop();
+  });
+  afterEach(() => {
+    return Toys.drop();
   });
 
   it('POSTS/creates a person to /people route', () => {
@@ -84,7 +88,7 @@ describe('app routes', () => {
       });
   });
 
-  it.only('creates a toy with the /toys route', () => {
+  it('creates a toy with the /toys route', () => {
     return request(app)
       .post('/toys')
       .send({ type: 'crayon', color: 'red' })
@@ -92,6 +96,23 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           type: 'crayon',
           color: 'red', 
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('GET a list of toys with the /toys route', () => {
+    return Toys.create ({
+      type: 'ball'
+    })
+      .then(() => {
+        return request(app)
+          .get('/toys');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body).toContainEqual({
+          type: 'ball',
           _id: expect.any(String)
         });
       });
