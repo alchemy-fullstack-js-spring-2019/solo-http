@@ -1,5 +1,4 @@
 const mkdirp = require('mkdirp');
-// const rimraf = require('rimraf');
 const Store = require('../lib/Store');
 
 describe('Store', () => {
@@ -16,10 +15,6 @@ describe('Store', () => {
   beforeEach(() => {
     return store.drop();
   });
-
-  // afterAll(done => {
-  //   rimraf('./testData', done);
-  // });
 
   it('creates an object in my store', () => {
     return store.create({ name: 'ryan' })
