@@ -1,4 +1,4 @@
-# HTTP
+<!-- # HTTP
 
 ## create server
 
@@ -11,8 +11,8 @@
 * use `http.createServer` to create a new http server
 * respond to each request with "<html><body>Thanks for visiting!</body></html>"
   * HINT: set your content type `res.setHeader('Content-Type', 'text/html')
-* `listen` on port 7890
-
+* `listen` on port 7890 -->
+<!-- 
 ## respond based on path
 
 * use `http.createServer` to create a new http server
@@ -23,7 +23,7 @@
 * NOTES:
   * get the url with `req.url`
   * use `url.parse` to parse the url
-  * get the pathname from the parsed url with `.pathname`
+  * get the pathname from the parsed url with `.pathname` -->
 
 ## server and app
 
