@@ -6,8 +6,6 @@ http.createServer((req, res) => {
   
   const url = parse(req.url);
   console.log(url);
-  //console.log('Connected!');
-  //res.setHeader('Content-type', 'text/html'); //or 'application/json' or 
   
   if(url.pathname === '/') {
     console.table('I am the home page');

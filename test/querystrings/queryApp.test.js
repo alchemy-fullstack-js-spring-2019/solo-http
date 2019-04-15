@@ -12,15 +12,4 @@ describe('receives a query', () => {
         expect(res.text).toEqual(named);
       });
   });
-
-  
-  // it('rejects when there is no match', () => {
-  //   setTimeout(9000000);
-  //   const wrongSearch = '/you?name=Kanga';
-  //   return request(queryApp)
-  //     .get(wrongSearch)
-  //     .then(res => {
-  //       expect(res.text).toEqual('You are not Krusty!');
-  //     });
-  // });
 });
