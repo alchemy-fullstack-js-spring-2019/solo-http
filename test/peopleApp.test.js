@@ -50,7 +50,7 @@ describe('people app', () => {
   });
   
   it('updates an id and returns updated person', () => {
-    return People.create({ name: 'hey', age: 10, color: 'orange' })
+    return People.create({ name: 'hey' })
       .then(createdPerson => {
         return request(app)
           .put(`/people/${createdPerson._id}`)
@@ -59,8 +59,6 @@ describe('people app', () => {
       .then(res => {
         expect(res.body).toEqual({
           name: 'new',
-          age: 10,
-          color: 'orange',
           _id: expect.any(String)
         });
       });
