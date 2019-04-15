@@ -40,9 +40,9 @@ const People = require('../lib/models/People');
 // });
 
 describe('person creation', () => {
-  afterEach(() => {
-    return People.drop();
-  });
+  // afterEach(() => {
+  //   return People.drop();
+  // });
   it('creates a person with /people', () => {
     return request(app)
       .post('/people')
@@ -56,22 +56,22 @@ describe('person creation', () => {
         });
       });
   });
-  it('gets a list of all people from /people', () => {
-    return People.create({
-      name: 'tiny'
-    })
-      .then(() => {
-        return request(app)
-          .get('/people');
-      })
-      .then(res => {
-        expect(res.body).toHaveLength(1);
-        expect(res.body).toContainEqual({ name: 'tiny', _id: expect.any(String) });
-      });
+  // it('gets a list of all people from /people', () => {
+  //   return People.create({
+  //     name: 'tiny'
+  //   })
+  //     .then(() => {
+  //       return request(app)
+  //         .get('/people');
+  //     })
+  //     .then(res => {
+  //       expect(res.body).toHaveLength(1);
+  //       expect(res.body).toContainEqual({ name: 'tiny', _id: expect.any(String) });
+  //     });
   // it('gets a certain person from a list using /people/:id', () => {
   //   return request(app)
   //   const id = 
   //   .get('/people/')
   // });
   });
-});
+// });
