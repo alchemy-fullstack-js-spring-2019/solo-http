@@ -2,7 +2,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const People = require('../lib/models/People');
 const Tasks = require('../lib/models/Tasks');
-// const { getSWCharacter } = require('../lib/service/getSWCharacter');
 
 jest.mock('../lib/service/getSWCharacter.js');
 
@@ -143,7 +142,6 @@ describe('server app routing tests for people', () => {
       .then(updatedPerson => {
         return People.findById(updatedPerson.body._id)
           .then(foundPerson => {
-            // expect(getSWCharacter).toHaveBeenCalledTimes(1);
             expect(foundPerson).toEqual(updatedPerson.body);
           });
       });
