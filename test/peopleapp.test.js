@@ -7,9 +7,9 @@ const request = require('supertest');
 
 
 describe('app routes', () => {
-  // afterEach(() => {
-  //   return People.drop();
-  // });
+  afterEach(() => {
+    return People.drop();
+  });
 
   it('POSTS/creates a person to /people route', () => {
     return request(peopleApp)
@@ -23,28 +23,27 @@ describe('app routes', () => {
       });
   });
 
-  // it('gets a list of people with the /people route', () => {
-  //   return People.create({
-  //     name: 'leooo',
-  //   })
-  //     .then(() => {
-  //       return request(app)
-  //         .get('/people');
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toHaveLength(1);
-  //       expect(res.body).toContainEqual({
-  //         name: 'risa',
-  //         _id: expect.any(String)
-  //       });
-  //     });
-  // });
-  // it('GETS a person by id', () => {
-  //   return People.create({ name: 'risa' })
-  //     .then(createdPerson => {
-  //       return request(app)
-  //         .get(`/people/${createdPerson_id}`);
-  //     });
-  // });
+  it('gets a list of people with the /people route', () => {
+    return People.create({
+      name: 'leooo',
+    })
+      .then(() => {
+        return request(peopleApp)
+          .get('/people');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body).toContainEqual({
+          name: 'risa',
+          _id: expect.any(String)
+        });
+      });
+  });
+  it('GETS a person by id', () => {
+    return People.create({ name: 'risa' })
+      .then(createdPerson => {
+        return request(peopleApp)
+          .get(`/people/${createdPerson._id}`);
+      });
+  });
 });
-
