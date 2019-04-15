@@ -14,7 +14,7 @@ describe('People route', () => {
   it('creates a person with /people route', () => {
     return request(peopleApp)
       .post('/people')
-      .send({ name: 'tester' }) // the data you want to send
+      .send({ name: 'tester' })
       .then(res => {
         expect(res.body).toEqual({
           name: 'tester',
