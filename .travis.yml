@@ -1,0 +1,8 @@
+paste this into .travis.yml
+
+language: node_js
+
+node_js:
+
+  - "node"
+
