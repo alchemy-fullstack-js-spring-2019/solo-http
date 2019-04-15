@@ -2,12 +2,6 @@ const request = require('supertest');
 const peopleApp = require('../lib/peopleApp');
 const People = require('../lib/models/People');
 
-jest.mock('../lib/service/rickAndMortyApi.js');
-
-// Create
-// Read
-// Update
-// Delete
 
 describe('app routes', () => {
   afterEach(() => {
