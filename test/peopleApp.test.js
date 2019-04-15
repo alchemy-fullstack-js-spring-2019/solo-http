@@ -1,8 +1,13 @@
 const app = require('../lib/peopleApp');
 const People = require('../lib/models/People');
 const request = require('supertest');
+const mkdirp = require('mkdirp');
 
 describe('people app', () => {
+  beforeAll(done => {
+    mkdirp('./data/people', done);
+  });
+
   afterEach(() => {
     return People.drop();
   });
