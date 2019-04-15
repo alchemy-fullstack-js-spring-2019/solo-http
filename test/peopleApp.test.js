@@ -4,7 +4,7 @@ const People = require('../lib/models/People');
 
 
 describe('app routes', () => {
-  afterEach(() => {
+  beforeEach(() => {
     return People.drop();
   });
 
