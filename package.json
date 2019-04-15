@@ -6,7 +6,7 @@
     "test": "jest --verbose",
     "test:watch": "npm run test -- --watch",
     "start": "node server.js",
-    "start:watch": "nodemon server.js"
+    "start:watch": "nodemon peopleServer.js"
   },
   "keywords": [],
   "author": "",
