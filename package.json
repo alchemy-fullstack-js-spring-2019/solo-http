@@ -1,11 +1,12 @@
 {
   "name": "solo-http",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,9 +15,25 @@
     "eslint": "^5.16.0",
     "jest": "^24.7.1",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.3"
+    "nodemon": "^1.18.11",
+    "rimraf": "^2.6.3",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
+    "superagent": "^5.0.2",
     "uuid": "^3.3.2"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenParisot/solo-http.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BenParisot/solo-http/issues"
+  },
+  "homepage": "https://github.com/BenParisot/solo-http#readme",
+  "description": ""
 }
