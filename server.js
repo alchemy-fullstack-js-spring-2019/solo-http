@@ -1,3 +1,3 @@
-const queryapp = require('./lib/query-app');
+const app = require('./lib/app');
 
-queryapp.listen(2121);
+app.listen(2121);
