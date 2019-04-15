@@ -1,73 +1,88 @@
 const request = require('supertest');
-const { peopleApp } = require('../lib/peopleApp');
-const fsPromises = require('fs').promises;
-const fs = require('fs');
-const People = require('../lib/models/people');
+const peopleApp = require('../lib/peopleApp');
+const People = require('../lib/models/People');
 
 jest.mock('../lib/service/rickAndMortyApi.js');
 
+// Create
+// Read
+// Update
+// Delete
+
 describe('app routes', () => {
-  afterAll(() => {
+  afterEach(() => {
     return People.drop();
   });
 
-  it('creates a person with /people', () => {
+  it('creates a person with the /people route', () => {
     return request(peopleApp)
       .post('/people')
-      .send({ name: 'ryan', age: 12, color: 'red' })
+      .send({ name: 'test' })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'ryan',
-          age: 12,
-          color: 'red',
+          name: 'test',
           _id: expect.any(String)
         });
       });
   });
 
-  it('gets all /people', () => {
-    return request(peopleApp)
-      .get('/people')
+  it('gets a list of people with the /people route', () => {
+    return People.create({
+      name: 'tester'
+    })
+      .then(() => {
+        return request(peopleApp)
+          .get('/people');
+      })
       .then(res => {
         expect(res.body).toHaveLength(1);
-      });
-  });
-
-  it('gets a person by ID', () => {
-    People.create({ name: 'tester', age: 'test', color: 'black' })
-      .then(testPerson => {
-        return request(peopleApp)
-          .get(`/people/${testPerson._id}`);
-      })
-      .then(result => {
-        expect(result.body).toEqual({
+        expect(res.body).toContainEqual({
           name: 'tester',
-          age: 'test',
-          color: 'black',
           _id: expect.any(String)
         });
       });
   });
 
-  it('updates a person by ID', () => {
-    return People.create({ name: 'original', age:'1', color: 'red' })
-      .then(createdPerson => {
-        return People.findByIdAndUpdate(createdPerson._id, {
-          name: 'update'
-        });
+  it('gets a person by id', () => {
+    return People.create({ name: 'tester' })
+      .then(person => {
+        return request(peopleApp)
+          .get(`/people/${person._id}`);
       })
-      .then(updatedPerson => {
-        expect(updatedPerson.name).toEqual('update');
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'tester',
+          _id: expect.any(String)
+        });
       });
   });
 
-  it('deletes person by ID', () => {
-    return People.create({ name: 'random', age: 2, color: 'yellow' })
-      .then(createdPerson => {
-        return People.findByIdAndDelete(createdPerson._id);
+  it('updates a person by id', () => {
+    return People.create({ name: 'testter' })
+      .then(person => {
+        return request(peopleApp)
+          .put(`/people/${person._id}`)
+          .send({ name: 'tester' });
       })
-      .then(result => {
-        expect(result).toEqual({ deleted: 1 });
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'tester',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('deletes a person by id', () => {
+    return People.create({ name: 'tester' })
+      .then(person => {
+        return request(peopleApp)
+          .delete(`/people/${person._id}`);
       })
-  })
+      .then(res => {
+        expect(res.body).toEqual({
+          deleted: 1
+        });
+      });
+  });
+
 });
