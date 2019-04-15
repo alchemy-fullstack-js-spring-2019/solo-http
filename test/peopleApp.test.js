@@ -1,26 +1,18 @@
 const app = require('../lib/peopleApp');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const rimraf = require('rimraf');
-const Store = require('../lib/models/Store');
-const fsPromises = require('fs').promises;
 const People = require('../lib/models/People');
-const uuid = require('uuid/v4');
 const request = require('supertest');
-
-// const rootDirectory = path.join(_dirname, '../', 'people');
 
 describe('people app', () => {
   afterEach(() => {
     return People.drop();
   });
 
-  it('creates a person with /people', () => {
+  it('creates a person with /people route', () => {
     return request(app)
       .post('/people')
-      .send({ name: 'patrick', age: 35, color: 'blue' })
+      .send({ name: 'patrick' })
       .then(res => {
-        expect(res.body).toEqual({ name: 'patrick', age: 35, color: 'blue', _id: expect.any(String) });
+        expect(res.body).toEqual({ name: 'patrick', _id: expect.any(String) });
       });
   });
   
