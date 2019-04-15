@@ -4,10 +4,10 @@ const People = require('../lib/models/People');
 const Toys = require('../lib/models/Toys');
 
 describe('app routes', () => {
-  afterEach(() => {
+  beforeEach(() => {
     return People.drop();
   });
-  afterEach(() => {
+  beforeEach(() => {
     return Toys.drop();
   });
 
