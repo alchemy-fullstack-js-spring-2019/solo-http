@@ -57,8 +57,6 @@ describe('Store', () => {
     return store.create({ item: 'I am going to delete' })
       .then(returnedItem => store.findByIdAndDelete(returnedItem._id))
       .then(res => expect(res).toEqual({ deleted: 1 }));
-    // .then(store.findById(returnedItem._id))
-    // .catch(err => expect(err).toBeTruthy());
   });
 
   it('updates an existing object', () => {

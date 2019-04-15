@@ -4,7 +4,7 @@ const getCharacter = require('./getCharacter');
 
 
 http.createServer((req, res) => {
-//   res.send = json => res.end(JSON.stringify(json));  
+
   const url = parse(req.url);
   const pattern = /\/(?<path>\w*)\/:?(?<id>\w*)?/;
   const match = pattern.exec(url.path);
