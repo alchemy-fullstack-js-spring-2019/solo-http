@@ -42,30 +42,20 @@ describe('Store', () => {
   });
 
   it('find all objects tracked by the store', () => {
-    const undefinedArray = [...Array(5)];
-    const arrayOfItems = undefinedArray.map((_, index) => {
-      return {
-        item: index
-      };
-    });
-    const createPromises = arrayOfItems
-      .map(item => store.create(item));
-
-    return Promise.all(createPromises)
-      .then(items => {
-        return Promise.all([
-          Promise.resolve(items),
-          store.find()
-        ]);
-      })
+    return Promise.all([
+      store.create({ item: 1 }),
+      store.create({ item: 2 }),
+      store.create({ item: 3 }),
+      store.create({ item: 4 }),
+      store.create({ item: 5 })
+    ])
+      .then((items) => Promise.all([
+        Promise.resolve(items),
+        store.find()
+      ]))
       .then(([items, foundItems]) => {
-        const [item1, item2, item3, item4, item5] = items;
-        expect(foundItems).toHaveLength(7);
-        expect(foundItems).toContainEqual(item1);
-        expect(foundItems).toContainEqual(item2);
-        expect(foundItems).toContainEqual(item3);
-        expect(foundItems).toContainEqual(item4);
-        expect(foundItems).toContainEqual(item5);
+        expect(foundItems).toHaveLength(5);
+        items.forEach(item => expect(foundItems).toContainEqual(item));
       });
   });
 
@@ -94,4 +84,6 @@ describe('Store', () => {
         expect(updatedItem.name).toEqual('ryan');
       });
   });
+
+  it('deletes all files')
 });
