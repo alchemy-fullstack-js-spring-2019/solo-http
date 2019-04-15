@@ -42,29 +42,29 @@ describe('Store', () => {
   });
 
 
-  it.only('find all objects tracked by the store', () => {
-    const undefinedArray = [...Array(5)];
-    const itemArray = undefinedArray.map((_, item) => ({
-      item
-    }));
-    const promiseArray = itemArray .map(store.create);
-    return Promise.all(promiseArray)
-      .then(items => {
-        return Promise.all([
-          Promise.resolve(items),
-          store.find()
-        ]);
-      })
-      .then(([items, foundItems]) => {
-        const [item1, item2, item3, item4, item5] = promises;
-        expect(foundItems).toHaveLength(5);
-        expect(foundItems).toContainEqual(item1);
-        expect(foundItems).toContainEqual(item2);
-        expect(foundItems).toContainEqual(item3);
-        expect(foundItems).toContainEqual(item4);
-        expect(foundItems).toContainEqual(item5);
-      });
-  });
+  // it.only('find all objects tracked by the store', () => {
+  //   const undefinedArray = [...Array(5)];
+  //   const itemArray = undefinedArray.map((_, item) => ({
+  //     item
+  //   }));
+  //   const promiseArray = itemArray .map(store.create);
+  //   return Promise.all(promiseArray)
+  //     .then(items => {
+  //       return Promise.all([
+  //         Promise.resolve(items),
+  //         store.find()
+  //       ]);
+  //     })
+  //     .then(([items, foundItems]) => {
+  //       const [item1, item2, item3, item4, item5] = promises;
+  //       expect(foundItems).toHaveLength(5);
+  //       expect(foundItems).toContainEqual(item1);
+  //       expect(foundItems).toContainEqual(item2);
+  //       expect(foundItems).toContainEqual(item3);
+  //       expect(foundItems).toContainEqual(item4);
+  //       expect(foundItems).toContainEqual(item5);
+  //     });
+  // });
 
   // it('deletes an object with an id', done => {
   //   store.create({ item: 'I am going to delete' }, (err, createdItem) => {
