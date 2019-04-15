@@ -7,7 +7,7 @@ describe('app routes', () => {
     return People.drop();
   });
 
-  it('creates a perfson with /peope;', ()=>{
+  it('creates a person with people;', ()=>{
     return request(app)
       .post('/people')
       .send({ name: 'test' })
@@ -41,7 +41,7 @@ describe('app routes', () => {
           });
       });
   });
-  it('fins a person and updates', ()=>{
+  it('finds a person and updates', ()=>{
     return request(app)
       .post('/people')
       .send({ name:'Wrong Name' })
@@ -54,6 +54,15 @@ describe('app routes', () => {
           });
           
       });
+  });
+  
+  it('finds by id and deletes user', ()=>{
+    return People.create({ name: 'Person To Delete' })
+      .then(person=>{
+        return request(app)
+          .delete(`/people/?id=${person._id}`);
+      })
+      .then(res=>expect(res.body).toEqual({ deleted: 1 }));
   });
 });
 
