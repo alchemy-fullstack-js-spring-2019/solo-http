@@ -34,7 +34,7 @@ describe('app routes', () => {
       .then(res => {
         expect(res.body).toHaveLength(1);
         expect(res.body).toContainEqual({
-          name: 'risa',
+          name: 'leooo',
           _id: expect.any(String)
         });
       });
