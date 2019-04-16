@@ -25,7 +25,7 @@ describe('app routes', () => {
             .get('/people')
             .then(res => {
                 console.log('Test forres', res.body);
-                expect(res.body).toHaveLength(1);
+                expect(res.body).toHaveLength(2);
             });
     });
 });
