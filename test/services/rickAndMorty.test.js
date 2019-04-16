@@ -1,11 +1,10 @@
 const request = require('supertest');
 const { rickNMorty } = require('../../lib/services/rickAndMorty');
-const People = require('../../lib/models/People');
 
 describe('app routes', () => {
-    afterAll(() => {
-        return People.drop();
-    });
+    // afterAll(() => {
+    //     return People.drop();
+    // });
 
     it('creates a person with /people', () => {
         return request(rickNMorty)
