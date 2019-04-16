@@ -1,7 +1,6 @@
 const request = require('supertest');
 const { rickNMorty } = require('../../lib/services/rickAndMorty');
 const People = require('../../lib/models/People');
-// jest.mock('../../lib/services/rickAndMorty.js');
 
 describe('app routes', () => {
     afterAll(() => {
@@ -30,6 +29,4 @@ describe('app routes', () => {
                 expect(res.body).toHaveLength(1);
             });
     });
-    
-
 });
